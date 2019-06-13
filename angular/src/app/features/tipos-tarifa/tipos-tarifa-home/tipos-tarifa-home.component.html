@@ -6,7 +6,7 @@
 <mat-card-title>{{literals.tiposTarifaTitle}}</mat-card-title>
 
 <mat-card-content>
-  <app-tipos-tarifa-search></app-tipos-tarifa-search>
+  <app-tipos-tarifa-search [compName]="'home'" (searchData)="search($event)" (cancel)="cancel()"></app-tipos-tarifa-search>
   <div class="col-lg-12">
       <button mat-icon-button color="primary" [routerLink]="['alta']"><mat-icon>add_circle_outline</mat-icon>
       {{literals.anaditTarifa}}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TipoTarifaService, TipoTarifa, TipoTarifaEto } from '../service/tipo-tarifa.service';
@@ -13,6 +13,8 @@ import { AlertsService } from '../../../core/services/alerts/alerts.service';
 export class TiposTarifaSearchComponent implements OnInit {
   literals: any;
   @Input() compName: string;
+  @Output() searchData = new EventEmitter<TipoTarifaEto>();
+  @Output() cancel = new EventEmitter();
   pageHeight: number;
   pageSize = 0;
   tipoDeTarifaControl;
@@ -69,23 +71,31 @@ export class TiposTarifaSearchComponent implements OnInit {
     });
   }
 
+  discard() {
+    this.cancel.emit();
+  }
+
   parkingRateManagementSubmit() {
     const params = this.route.snapshot.params;
     if (this.parkingRateManagement.valid) {
-      if (Object.keys(params).length) {
-        this.tipoTarifaService.editTipoTarifaData(this.parkingRateManagement.value).subscribe(data => {
-          this.alertService.success(this.literals.successRecord);
-          this.router.navigate(['/tipos-tarifa']);
-        }, error => {
-          this.alertService.danger(this.literals.generic_error_title);
-        });
+      if (this.compName === 'home') {
+        this.searchData.emit(this.parkingRateManagement.value);
       } else {
-        this.tipoTarifaService.addTipoTarifaData(this.parkingRateManagement.value).subscribe(data => {
-          this.alertService.success('Successfully Added Record');
-          this.router.navigate(['/tipos-tarifa']);
-        }, error => {
-          this.alertService.danger(this.literals.generic_error_title);
-        });
+        if (Object.keys(params).length) {
+          this.tipoTarifaService.editTipoTarifaData(this.parkingRateManagement.value).subscribe(data => {
+            this.alertService.success(this.literals.successRecord);
+            this.router.navigate(['/tipos-tarifa']);
+          }, error => {
+            this.alertService.danger(this.literals.generic_error_title);
+          });
+        } else {
+          this.tipoTarifaService.addTipoTarifaData(this.parkingRateManagement.value).subscribe(data => {
+            this.alertService.success(this.literals.successRecord);
+            this.router.navigate(['/tipos-tarifa']);
+          }, error => {
+            this.alertService.danger(this.literals.generic_error_title);
+          });
+        }
       }
     }
   }

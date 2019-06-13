@@ -266,5 +266,6 @@
   "anaditTarifa": "Anadir tarifa",
   "altaNuevoTipo": "Alta nuevo tipo de tarifa",
   "successRecord": "Agregado exitosamente",
-  "successDelete": "Eliminado exitosamente"
+  "successDelete": "Eliminado exitosamente",
+  "noRecord": "ningún record fue encontrado"
 }

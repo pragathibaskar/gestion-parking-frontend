@@ -1,8 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { TableComponent } from 'src/app/shared/table/table.component';
-import { Subscription } from 'rxjs';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tipos-tarifa',
@@ -11,14 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class TiposTarifaComponent implements OnInit {
 
-  subscriptions: Subscription = new Subscription();
-
-  constructor(
-    private router: Router,
-    private readonly route: ActivatedRoute,
-  ) {}
-
-  @ViewChild(TableComponent) table: TableComponent;
+  constructor() {}
 
   ngOnInit() {}
 

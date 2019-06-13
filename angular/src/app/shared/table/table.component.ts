@@ -39,8 +39,8 @@ export class TableComponent implements OnInit {
   dataTableModification(evt: Event, value: TipoTarifa) {
     this.selectedRow = value;
     const ele: HTMLElement = <HTMLElement> evt.target;
-    this.tdOffsetTop = ele.closest('td').offsetTop - 52;
-    this.tdOffsetLeft = ele.closest('td').offsetLeft - 180;
+    this.tdOffsetTop = ele.closest('td').offsetTop - 8;
+    this.tdOffsetLeft = ele.closest('td').offsetLeft - 160;
     if (this.prevTarget === ele) {
       this.view = false;
       this.prevTarget = null;

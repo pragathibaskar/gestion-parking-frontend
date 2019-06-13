@@ -25,7 +25,7 @@
       </div>
       <div class="col-lg-4" *ngIf="compName !== 'alta'">
         <div class="tipos-tarif-search-action">
-            <button mat-stroked-button color="basic" class="mat-stroked-button" type="button"><span>{{'Limpiar'}}</span></button>
+            <button mat-stroked-button color="basic" class="mat-stroked-button" type="button" (click)="discard()"><span>{{'Limpiar'}}</span></button>
             <button mat-raised-button color="primary" type="submit">{{'Buscar'}}</button>
         </div>
       </div>

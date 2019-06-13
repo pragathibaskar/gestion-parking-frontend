@@ -23,6 +23,7 @@ export class TipoTarifaService {
   private readonly tipo_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/findAll';
   private readonly edit_tipo_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/update/';
   private readonly add_delete_tipo_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/';
+  private readonly search_tipo_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/search/';
   constructor(
     private http: HttpClient
   ) { }
@@ -41,6 +42,10 @@ export class TipoTarifaService {
 
   deleteTipoTarifaData(data: TipoTarifa): Observable<TipoTarifa> {
     return this.http.delete<TipoTarifa>(this.add_delete_tipo_tarifa + data.id);
+  }
+
+  searchTipoTarifaData(data: TipoTarifaEto): Observable<TipoTarifa[]> {
+    return this.http.post<TipoTarifa[]>(this.search_tipo_tarifa, data);
   }
 
   setTipoTarifaSelectedData(data: TipoTarifa) {

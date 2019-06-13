@@ -77,5 +77,6 @@
   "module": "Module",
   "tag": "Genesis",
   "successRecord": "Successfully Added",
-  "successDelete": "Successfully Deleted"
+  "successDelete": "Successfully Deleted",
+  "noRecord": "No Record Found"
 }

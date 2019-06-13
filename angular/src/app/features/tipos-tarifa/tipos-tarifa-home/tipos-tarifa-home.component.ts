@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TipoTarifaService, TipoTarifa } from '../service/tipo-tarifa.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, of } from 'rxjs';
 import { BREADCRUMB_PATHS } from 'src/app/core/constants/breadcrumb-paths.const';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertsService } from '../../../core/services/alerts/alerts.service';
@@ -13,7 +13,8 @@ import { AlertsService } from '../../../core/services/alerts/alerts.service';
 export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   dataSource: TipoTarifa[] = [];
   subscription: Subscription;
-  whileLoading = true;
+  store$: Observable<TipoTarifa[]>;
+  whileLoading = false;
   columns = [
     { name: 'tipodeTarifa', label: 'Tipo De Tarifa'},
     { name: 'description', label: 'Description'}
@@ -33,8 +34,13 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getTranslations();
+    this.initialLoad();
+  }
+
+  private initialLoad() {
     this.subscription = this.tipoTarifaService.findAllTipoTarifaData().subscribe((data: TipoTarifa[]) => {
       this.dataSource = data.reverse();
+      this.whileLoading = true;
     });
   }
 
@@ -75,6 +81,27 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
       this.whileLoading = true;
       this.alertSerive.danger(this.literals.generic_error_title);
      });
+  }
+
+  search(data) {
+    this.whileLoading = false;
+    this.tipoTarifaService.searchTipoTarifaData(data).subscribe(list => {
+      this.whileLoading = true;
+      if (list['content'].length) {
+        this.dataSource = list['content'];
+      } else {
+        this.dataSource = [];
+        this.alertSerive.warning(this.literals.noRecord);
+      }
+    }, error => {
+      this.whileLoading = true;
+      this.alertSerive.danger(this.literals.generic_error_title);
+    });
+  }
+
+  cancel() {
+    this.whileLoading = false;
+    this.initialLoad();
   }
 
   ngOnDestroy(): void {

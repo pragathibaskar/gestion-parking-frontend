@@ -1,9 +1,10 @@
 export const environment = {
   production: true,
-  defaultLanguage: 'es',
+  defaultLanguage: 'es-ES',
   supportedLanguages: [
-    'es'
+    'es-ES', 'en-GB'
   ],
   i18nPath: '/assets/i18n/',
   serverUrl: 'http://consume-consum.apps.okd.openshifthub.ml/'
 };
+

@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+.mat-simple-snackbar-action .mat-button {
+  color: white !important
+}
+td-breadcrumb .td-breadcrumb-separator-icon.mat-icon-no-color {
+ display: none !important
+}
+td-breadcrumbs {
+  margin-left: 15px
+}
+
+mat-form-field {
+    font-size: 12px !important;
+    width: 100%;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    color: rgba(0, 0, 0, 0.12) !important;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
+  color: red !important;
+}

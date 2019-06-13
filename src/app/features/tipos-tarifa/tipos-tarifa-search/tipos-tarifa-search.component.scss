@@ -1,0 +1,31 @@
+.parkingRateManagement {
+    padding-left: 0;
+    .tipos-tarif-search-action {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+        button {
+            font-weight: bold;
+        }
+        button:first-child {
+            margin-right: 16px;
+        }
+    }
+    .alta.tipos-tarif-search-action {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+    }
+    .alta-actions {
+        position: absolute;
+        background: #bbb;
+        bottom: 0;
+        padding: 20px;
+    }
+
+    .error-msg {
+        color: red;
+        font-size: 12px;
+        margin-top: -12px;
+    }
+}

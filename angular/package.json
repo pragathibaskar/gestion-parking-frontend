@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "build": "ng build",
     "build:pwa": "ng build --configuration=pwa --prod --build-optimizer && npm run ngsw-config && npm run ngsw-copy",
-    "build:prod": "ng build --prod --build-optimizer"
+    "build:prod": "ng build --prod --build-optimizer --base-href=/gestion-parking/"
   },
   "private": true,
   "dependencies": {

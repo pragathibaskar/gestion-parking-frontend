@@ -4,7 +4,7 @@
       <div class="col-lg-3">
           <mat-form-field appearance="outline">
             <mat-label>{{'Tipo de tarifa'}}</mat-label>
-            <input matInput placeholder="{{'EJ: G'}}" autocomplete="off" formControlName="tipoDeTarifa">
+            <input matInput placeholder="{{'EJ: G'}}" autocomplete="off" formControlName="tipodeTarifa">
           </mat-form-field>
           <div *ngIf="tipoDeTarifaControl.invalid && (tipoDeTarifaControl.dirty || tipoDeTarifaControl.touched)" class="error-msg">
             <div *ngIf="tipoDeTarifaControl.errors.required">
@@ -15,7 +15,7 @@
       <div class="col-lg-5">
           <mat-form-field appearance="outline">
             <mat-label>{{'Descripción'}}</mat-label>
-            <input matInput placeholder="{{'EJ: Gratitude'}}" autocomplete="off" formControlName="tipoDeDescription">
+            <input matInput placeholder="{{'EJ: Gratitude'}}" autocomplete="off" formControlName="description">
           </mat-form-field>
           <div *ngIf="tipoDeDescriptionControl.invalid && (tipoDeDescriptionControl.dirty || tipoDeDescriptionControl.touched)" class="error-msg">
             <div *ngIf="tipoDeDescriptionControl.errors.required">

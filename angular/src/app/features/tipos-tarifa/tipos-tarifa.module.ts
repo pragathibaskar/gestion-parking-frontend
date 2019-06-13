@@ -10,6 +10,8 @@ import { TiposTarifaSearchComponent } from './tipos-tarifa-search/tipos-tarifa-s
 import { AltaNuevoComponent } from './alta-nuevo/alta-nuevo.component';
 import { TiposTarifaHomeComponent } from './tipos-tarifa-home/tipos-tarifa-home.component';
 import { BreadcrumbModule } from '../../shared/breadcrumb/breadcrumb.module';
+import { AlertsService } from '../../core/services/alerts/alerts.service';
+import { SnackBarService } from '../../core/services/snackBar/snackService.service';
 
 @NgModule({
   imports: [
@@ -26,6 +28,10 @@ import { BreadcrumbModule } from '../../shared/breadcrumb/breadcrumb.module';
     TiposTarifaSearchComponent,
     AltaNuevoComponent,
     TiposTarifaHomeComponent
+  ],
+  providers: [
+    AlertsService,
+    SnackBarService
   ],
   bootstrap: [TiposTarifaComponent]
 })

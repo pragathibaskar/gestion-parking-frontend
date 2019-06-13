@@ -264,5 +264,7 @@
     "mensaje": "¿Estás seguro de que quieres abandonar el proceso? Perderás los cambios realizados"
   },
   "anaditTarifa": "Anadir tarifa",
-  "altaNuevoTipo": "Alta nuevo tipo de tarifa"
+  "altaNuevoTipo": "Alta nuevo tipo de tarifa",
+  "successRecord": "Agregado exitosamente",
+  "successDelete": "Eliminado exitosamente"
 }

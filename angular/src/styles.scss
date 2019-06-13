@@ -1,3 +1,4 @@
+
 /* You can add global styles to this file, and also import other style files */
 .mat-simple-snackbar-action .mat-button {
   color: white !important
@@ -20,4 +21,8 @@ mat-form-field {
 
 .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
   color: red !important;
+}
+
+.mat-drawer-container {
+  background: #fff !important;
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { TipoTarifaService, TipoTarifa } from '../service/tipo-tarifa.service';
+import { TipoTarifaService, TipoTarifa, TipoTarifaEto } from '../service/tipo-tarifa.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AlertsService } from '../../../core/services/alerts/alerts.service';
 
 @Component({
   selector: 'app-tipos-tarifa-search',
@@ -15,39 +17,43 @@ export class TiposTarifaSearchComponent implements OnInit {
   pageSize = 0;
   tipoDeTarifaControl;
   tipoDeDescriptionControl;
+  tipoTarifaData: TipoTarifa;
   parkingRateManagement: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
     private translationService: TranslateService,
-    private tipoTarifaService: TipoTarifaService
+    private tipoTarifaService: TipoTarifaService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private alertService: AlertsService
   ) {
     this.parkingRateManagement = formBuilder.group({
-      tipoDeTarifa: '',
-      tipoDeDescription: ''
+      tipodeTarifa: '',
+      description: ''
     });
-    this.tipoDeTarifaControl = this.parkingRateManagement.get('tipoDeTarifa');
-    this.tipoDeDescriptionControl = this.parkingRateManagement.get('tipoDeDescription');
+    this.tipoDeTarifaControl = this.parkingRateManagement.get('tipodeTarifa');
+    this.tipoDeDescriptionControl = this.parkingRateManagement.get('description');
   }
 
   ngOnInit() {
     this.getTranslations();
     this.pageSize = window.innerHeight;
     if (this.compName === 'alta') {
-      const tipoTarifaData: TipoTarifa = this.tipoTarifaService.getTipoTarifaSelectedData();
+      this.tipoTarifaData = this.tipoTarifaService.getTipoTarifaSelectedData();
       this.pageHeight = window.innerHeight - 200;
       this.validatorsForTipoDeTarifaControl();
       this.validatorsForTipoDeDescriptionControl();
-      if (tipoTarifaData) {
+      if (this.tipoTarifaData) {
         this.parkingRateManagement.setValue({
-          tipoDeTarifa: tipoTarifaData.tipodeTarifa,
-          tipoDeDescription: tipoTarifaData.description
+          tipodeTarifa: this.tipoTarifaData.tipodeTarifa,
+          description: this.tipoTarifaData.description
         });
       }
     } else {
       this.pageSize = 0;
       this.parkingRateManagement.setValue({
-        tipoDeTarifa: '',
-        tipoDeDescription: ''
+        tipodeTarifa: '',
+        description: ''
       });
     }
   }
@@ -64,7 +70,24 @@ export class TiposTarifaSearchComponent implements OnInit {
   }
 
   parkingRateManagementSubmit() {
-    console.log(this.parkingRateManagement.value);
+    const params = this.route.snapshot.params;
+    if (this.parkingRateManagement.valid) {
+      if (Object.keys(params).length) {
+        this.tipoTarifaService.editTipoTarifaData(this.parkingRateManagement.value).subscribe(data => {
+          this.alertService.success(this.literals.successRecord);
+          this.router.navigate(['/tipos-tarifa']);
+        }, error => {
+          this.alertService.danger(this.literals.generic_error_title);
+        });
+      } else {
+        this.tipoTarifaService.addTipoTarifaData(this.parkingRateManagement.value).subscribe(data => {
+          this.alertService.success('Successfully Added Record');
+          this.router.navigate(['/tipos-tarifa']);
+        }, error => {
+          this.alertService.danger(this.literals.generic_error_title);
+        });
+      }
+    }
   }
 
   private validatorsForTipoDeTarifaControl() {

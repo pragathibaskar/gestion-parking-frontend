@@ -4,6 +4,7 @@ import { TipoTarifaService, TipoTarifa } from '../service/tipo-tarifa.service';
 import { Subscription } from 'rxjs';
 import { BREADCRUMB_PATHS } from 'src/app/core/constants/breadcrumb-paths.const';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AlertsService } from '../../../core/services/alerts/alerts.service';
 @Component({
   selector: 'app-tipos-tarifa-home',
   templateUrl: './tipos-tarifa-home.component.html',
@@ -12,11 +13,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   dataSource: TipoTarifa[] = [];
   subscription: Subscription;
+  whileLoading = true;
   columns = [
-    { name: 'id',  label: 'Record' },
-    { name: 'modificationCounter', label: 'ModificationCounter' },
-    { name: 'description', label: 'Description'},
-    { name: 'tipodeTarifa', label: 'Tipo De Tarifa'}
+    { name: 'tipodeTarifa', label: 'Tipo De Tarifa'},
+    { name: 'description', label: 'Description'}
   ];
   literals: any = {};
   breadcrumb: any[];
@@ -25,14 +25,17 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
     private readonly translationService: TranslateService,
     private tipoTarifaService: TipoTarifaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private alertSerive: AlertsService
   ) {
       this.tipoTarifaService.setTipoTarifaSelectedData(null);
   }
 
   ngOnInit() {
     this.getTranslations();
-    this.subscription = this.tipoTarifaService.findAllTipoTarifaData().subscribe(data => this.dataSource = data );
+    this.subscription = this.tipoTarifaService.findAllTipoTarifaData().subscribe((data: TipoTarifa[]) => {
+      this.dataSource = data.reverse();
+    });
   }
 
   private getTranslations() {
@@ -59,7 +62,19 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
 
   edit(data: TipoTarifa) {
     this.tipoTarifaService.setTipoTarifaSelectedData(data);
-    this.router.navigate(['alta'], { relativeTo: this.route });
+    this.router.navigate(['alta', data.id], { relativeTo: this.route });
+  }
+
+  delete(tipoTarifData: TipoTarifa) {
+    this.whileLoading = false;
+    this.tipoTarifaService.deleteTipoTarifaData(tipoTarifData).subscribe(data => {
+      this.alertSerive.success(this.literals.successDelete);
+      this.whileLoading = true;
+      this.dataSource = this.dataSource.filter(dataT => dataT.id !== tipoTarifData.id);
+    }, error => {
+      this.whileLoading = true;
+      this.alertSerive.danger(this.literals.generic_error_title);
+     });
   }
 
   ngOnDestroy(): void {

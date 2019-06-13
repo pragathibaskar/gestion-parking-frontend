@@ -7,4 +7,3 @@ export const environment = {
   i18nPath: '/assets/i18n/',
   serverUrl: 'http://consume-consum.apps.okd.openshifthub.ml/'
 };
-

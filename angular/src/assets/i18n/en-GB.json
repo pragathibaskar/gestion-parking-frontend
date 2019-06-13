@@ -75,5 +75,7 @@
   "SELECT_ALL": "Select all",
   "welcome": "Welcome",
   "module": "Module",
-  "tag": "Genesis"
+  "tag": "Genesis",
+  "successRecord": "Successfully Added",
+  "successDelete": "Successfully Deleted"
 }

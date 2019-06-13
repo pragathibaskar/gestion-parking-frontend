@@ -8,6 +8,7 @@ import { TiposTarifaHomeComponent } from './tipos-tarifa-home/tipos-tarifa-home.
 const routes: Routes = [
   { path: '', component: TiposTarifaComponent, children: [
     { path: 'alta', component: AltaNuevoComponent },
+    { path: 'alta/:id', component: AltaNuevoComponent },
     { path: '', component: TiposTarifaHomeComponent },
   ]}
 ];

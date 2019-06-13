@@ -11,10 +11,11 @@ import { TipoTarifa } from '../../features/tipos-tarifa/service/tipo-tarifa.serv
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
-  @Input() data: any[];
+  @Input() data: TipoTarifa[];
   @Input() columns: ITdDataTableColumn[];
   @ViewChild(TdPagingBarComponent) pagingBar: TdPagingBarComponent;
   @Output() editData = new EventEmitter<TipoTarifa>();
+  @Output() deleteData = new EventEmitter<TipoTarifa>();
   selectedRow: TipoTarifa;
   tdOffsetTop: number;
   tdOffsetLeft: number;
@@ -25,13 +26,13 @@ export class TableComponent implements OnInit {
   fromRow: any = 1;
   currentPage: any = 1;
   pageSize: any = 5;
-  filteredData: any[];
+  filteredData: TipoTarifa[];
   filteredTotal: number;
 
   constructor(private _dataTableService: TdDataTableService) {}
 
   ngOnInit(): void {
-    this.basicData = this.data.slice(0, 10);
+    this.basicData = this.data;
     this.filter();
   }
 
@@ -73,9 +74,9 @@ export class TableComponent implements OnInit {
   }
 
   async filter(): Promise<void> {
-    let newData: any[] = this.data;
-    newData = await this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
-    this.filteredData = newData;
+    // let newData: any[] = this.data;
+    // newData = await this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
+    this.filteredData = this.data;
   }
 
   showAlert(event: any): void {
@@ -85,6 +86,10 @@ export class TableComponent implements OnInit {
 
   edit() {
     this.editData.emit(this.selectedRow);
+  }
+
+  delete() {
+    this.deleteData.emit(this.selectedRow);
   }
 
 }

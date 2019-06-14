@@ -21,6 +21,7 @@ export class TiposTarifaSearchComponent implements OnInit {
   tipoDeDescriptionControl;
   tipoTarifaData: TipoTarifa;
   parkingRateManagement: FormGroup;
+  routeSnapShotParams = Object.keys(this.route.snapshot.params);
   constructor(
     private formBuilder: FormBuilder,
     private translationService: TranslateService,
@@ -35,6 +36,9 @@ export class TiposTarifaSearchComponent implements OnInit {
     });
     this.tipoDeTarifaControl = this.parkingRateManagement.get('tipodeTarifa');
     this.tipoDeDescriptionControl = this.parkingRateManagement.get('description');
+    if (this.routeSnapShotParams.length) {
+      this.tipoDeTarifaControl.disable();
+    }
   }
 
   ngOnInit() {
@@ -76,13 +80,12 @@ export class TiposTarifaSearchComponent implements OnInit {
   }
 
   parkingRateManagementSubmit() {
-    const params = this.route.snapshot.params;
     if (this.parkingRateManagement.valid) {
       if (this.compName === 'home') {
         this.searchData.emit(this.parkingRateManagement.value);
       } else {
-        if (Object.keys(params).length) {
-          this.tipoTarifaService.editTipoTarifaData(this.parkingRateManagement.value).subscribe(data => {
+        if (this.routeSnapShotParams.length) {
+          this.tipoTarifaService.editTipoTarifaData(this.parkingRateManagement.getRawValue()).subscribe(data => {
             this.alertService.success(this.literals.successRecord);
             this.router.navigate(['/tipos-tarifa']);
           }, error => {

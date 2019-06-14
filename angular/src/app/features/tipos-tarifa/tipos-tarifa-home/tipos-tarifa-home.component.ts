@@ -16,8 +16,8 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   store$: Observable<TipoTarifa[]>;
   whileLoading = false;
   columns = [
-    { name: 'tipodeTarifa', label: 'Tipo De Tarifa'},
-    { name: 'description', label: 'Description'}
+    { name: 'tipodeTarifa', label: 'Tipo de tarifa'},
+    { name: 'description', label: 'Descripción'}
   ];
   literals: any = {};
   breadcrumb: any[];

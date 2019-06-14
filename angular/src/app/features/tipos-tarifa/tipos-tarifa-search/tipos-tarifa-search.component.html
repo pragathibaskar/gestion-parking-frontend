@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-3">
           <mat-form-field appearance="outline">
-            <mat-label>{{'Tipo de tarifa'}}</mat-label>
+            <mat-label>{{literals.paramTarifas.tipoTarifaLabel}}</mat-label>
             <input matInput placeholder="{{'EJ: G'}}" autocomplete="off" formControlName="tipodeTarifa">
           </mat-form-field>
           <div *ngIf="tipoDeTarifaControl.invalid && (tipoDeTarifaControl.dirty || tipoDeTarifaControl.touched)" class="error-msg">
@@ -14,7 +14,7 @@
       </div>
       <div class="col-lg-5">
           <mat-form-field appearance="outline">
-            <mat-label>{{'Descripción'}}</mat-label>
+            <mat-label>{{literals.paramTarifas.descripcionLabel}}</mat-label>
             <input matInput placeholder="{{'EJ: Gratitude'}}" autocomplete="off" formControlName="description">
           </mat-form-field>
           <div *ngIf="tipoDeDescriptionControl.invalid && (tipoDeDescriptionControl.dirty || tipoDeDescriptionControl.touched)" class="error-msg">
@@ -25,8 +25,8 @@
       </div>
       <div class="col-lg-4" *ngIf="compName !== 'alta'">
         <div class="tipos-tarif-search-action">
-            <button mat-stroked-button color="basic" class="mat-stroked-button" type="button" (click)="discard()"><span>{{'Limpiar'}}</span></button>
-            <button mat-raised-button color="primary" type="submit">{{'Buscar'}}</button>
+            <button mat-stroked-button color="basic" class="mat-stroked-button" type="button" (click)="discard()"><span>{{literals.clear}}</span></button>
+            <button mat-raised-button color="primary" type="submit">{{literals.search}}</button>
         </div>
       </div>
     </div>
@@ -34,10 +34,10 @@
         <div class="col-lg-12 alta-actions">
             <div class="alta tipos-tarif-search-action">
                 <button mat-stroked-button color="basic" class="mat-stroked-button"
-                  type="button" [routerLink]="'/tipos-tarifa'"><span>{{'Limpiar'}}</span></button>
+                  type="button" [routerLink]="'/tipos-tarifa'"><span>{{literals.return}}</span></button>
                 <button mat-raised-button color="primary" 
                   type="submit"
-                  [disabled]="!parkingRateManagement.valid">{{'Buscar'}}</button>
+                  [disabled]="!parkingRateManagement.valid">{{literals.confirm}}</button>
             </div>
           </div>
     </div>

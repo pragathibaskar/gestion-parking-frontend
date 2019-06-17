@@ -12,7 +12,7 @@ import { TipoTarifa } from '../../features/tipos-tarifa/service/tipo-tarifa.serv
 })
 export class TableComponent implements OnInit {
   @Input() data: TipoTarifa[];
-  @Input() columns: ITdDataTableColumn[];
+  @Input() columns: any;
   @ViewChild(TdPagingBarComponent) pagingBar: TdPagingBarComponent;
   @Output() editData = new EventEmitter<TipoTarifa>();
   @Output() deleteData = new EventEmitter<TipoTarifa>();
@@ -58,7 +58,7 @@ export class TableComponent implements OnInit {
     }
   }
 
-  onScroll() {
+  onScroll($event) {
     this.view = false;
   }
 

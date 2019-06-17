@@ -1,3 +1,39 @@
-<p>
-  parameter-de-tarifa-search works!
-</p>
+<div class="parkingRateParametroManagement" #parkingRateType>
+  <form [formGroup]="parkingRateParametroManagement" (ngSubmit)="parkingRateParametroManagementSubmit()" novalidate>
+    <div class="row">
+      <div class="col-lg-2">
+          <mat-form-field appearance="outline">
+            <mat-label>{{literals.paramTarifas.tipoTarifaLabel}}</mat-label>
+            <input matInput placeholder="{{'EJ: G'}}" autocomplete="off" formControlName="tipodeTarifa" id="tipodeTarifa">
+            <mat-error *ngIf="hasError('tipodeTarifa', 'required')">{{literals.requiredField}}</mat-error>
+          </mat-form-field>
+      </div>
+      <div class="col-lg-2">
+          <mat-form-field appearance="outline">
+            <mat-label>{{literals.paramTarifas.descripcionLabel}}</mat-label>
+            <input matInput placeholder="{{'EJ: Gratitude'}}" autocomplete="off" formControlName="description" id="description">
+            <mat-error *ngIf="hasError('description', 'required')">{{literals.requiredField}}</mat-error>
+          </mat-form-field>
+      </div>
+      <div class="col-lg-5">
+          <mat-form-field appearance="outline">
+              <mat-label>{{literals.paramTarifas.vigenciaDesdeLabel}}</mat-label>
+              <input matInput
+                  [satDatepicker]="picker"
+                  autocomplete="off"
+                  (focus)="picker.open()"
+                  formControlName="vigenciaDesde">
+              <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+              <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
+              <mat-error *ngIf="hasError('vigenciaDesde', 'required')">{{literals.requiredField}}</mat-error>
+            </mat-form-field>
+    </div>
+      <div class="col-lg-3">
+        <div class="tipos-tarif-search-action">
+            <button mat-stroked-button color="basic" class="mat-stroked-button" type="button" (click)="discard()"><span>{{literals.clear}}</span></button>
+            <button mat-raised-button color="primary" type="submit">{{literals.search}}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

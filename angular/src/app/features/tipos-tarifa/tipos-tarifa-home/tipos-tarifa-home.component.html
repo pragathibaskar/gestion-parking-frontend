@@ -12,7 +12,13 @@
       {{literals.anaditTarifa}}
       </button>
   </div>
-  <mat-card *ngIf="dataSource.length && whileLoading">
-    <app-table [data]="dataSource" [columns]="columns" (editData)="edit($event)" (deleteData)="delete($event)"></app-table>
+  <mat-card>
+    <app-table *ngIf="this.whileLoading; else loading" [data]="dataSource" [columns]="columns" (editData)="edit($event)" (deleteData)="delete($event)"></app-table>
   </mat-card>
+  <ng-template #loading>
+    <div class="whileLoading">
+      <mat-progress-bar mode="buffer"></mat-progress-bar>
+      <div>please wait...</div>
+    </div>
+  </ng-template>
 </mat-card-content>

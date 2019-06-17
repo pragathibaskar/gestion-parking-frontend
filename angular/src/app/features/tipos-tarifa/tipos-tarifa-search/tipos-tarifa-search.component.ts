@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TipoTarifaService, TipoTarifa, TipoTarifaEto } from '../service/tipo-tarifa.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertsService } from '../../../core/services/alerts/alerts.service';
+import { skip } from 'rxjs/operators';
+import { AbandonProcessService } from 'src/app/core/services/abandon-process/abandon-process.service';
 
 @Component({
   selector: 'app-tipos-tarifa-search',
@@ -11,10 +13,14 @@ import { AlertsService } from '../../../core/services/alerts/alerts.service';
   styleUrls: ['./tipos-tarifa-search.component.scss']
 })
 export class TiposTarifaSearchComponent implements OnInit {
-  literals: any;
+  literals: any = {
+    paramTarifas: ''
+  };
   @Input() compName: string;
+  @ViewChild('searchForm') searchForm: NgForm;
   @Output() searchData = new EventEmitter<TipoTarifaEto>();
   @Output() cancel = new EventEmitter();
+
   pageHeight: number;
   pageSize = 0;
   tipoDeTarifaControl;
@@ -22,15 +28,17 @@ export class TiposTarifaSearchComponent implements OnInit {
   tipoTarifaData: TipoTarifa;
   parkingRateManagement: FormGroup;
   routeSnapShotParams = Object.keys(this.route.snapshot.params);
+
   constructor(
     private formBuilder: FormBuilder,
     private translationService: TranslateService,
     private tipoTarifaService: TipoTarifaService,
     private router: Router,
     private route: ActivatedRoute,
-    private alertService: AlertsService
+    private alertService: AlertsService,
+    private abandonProcessService: AbandonProcessService
   ) {
-    this.parkingRateManagement = formBuilder.group({
+    this.parkingRateManagement = this.formBuilder.group({
       tipodeTarifa: '',
       description: ''
     });
@@ -43,8 +51,10 @@ export class TiposTarifaSearchComponent implements OnInit {
 
   ngOnInit() {
     this.getTranslations();
+
     this.pageSize = window.innerHeight;
     if (this.compName === 'alta') {
+      this.activateAbandonProcessOnDirty();
       this.tipoTarifaData = this.tipoTarifaService.getTipoTarifaSelectedData();
       this.pageHeight = window.innerHeight - 200;
       this.validatorsForTipoDeTarifaControl();
@@ -57,11 +67,18 @@ export class TiposTarifaSearchComponent implements OnInit {
       }
     } else {
       this.pageSize = 0;
-      this.parkingRateManagement.setValue({
-        tipodeTarifa: '',
-        description: ''
-      });
     }
+  }
+
+
+  private activateAbandonProcessOnDirty() {
+    this.parkingRateManagement.valueChanges.pipe(skip(1)).subscribe((values) => {
+      if (this.parkingRateManagement.dirty) {
+
+        this.abandonProcessService.activate(this.literals);
+
+      }
+    });
   }
 
   private getTranslations() {
@@ -70,7 +87,7 @@ export class TiposTarifaSearchComponent implements OnInit {
       this.literals = translations;
     });
 
-    this.translationService.onLangChange.subscribe( translations => {
+    this.translationService.onLangChange.subscribe(translations => {
       this.literals = translations.translations;
     });
   }
@@ -87,6 +104,7 @@ export class TiposTarifaSearchComponent implements OnInit {
         if (this.routeSnapShotParams.length) {
           this.tipoTarifaService.editTipoTarifaData(this.parkingRateManagement.getRawValue()).subscribe(data => {
             this.alertService.success(this.literals.successRecord);
+            this.abandonProcessService.deactivate();
             this.router.navigate(['/tipos-tarifa']);
           }, error => {
             this.alertService.danger(this.literals.generic_error_title);
@@ -94,6 +112,7 @@ export class TiposTarifaSearchComponent implements OnInit {
         } else {
           this.tipoTarifaService.addTipoTarifaData(this.parkingRateManagement.value).subscribe(data => {
             this.alertService.success(this.literals.successRecord);
+            this.abandonProcessService.deactivate();
             this.router.navigate(['/tipos-tarifa']);
           }, error => {
             this.alertService.danger(this.literals.generic_error_title);
@@ -102,6 +121,11 @@ export class TiposTarifaSearchComponent implements OnInit {
       }
     }
   }
+
+  public hasError = (controlName: string, errorName: string) => {
+    return this.parkingRateManagement.controls[controlName].hasError(errorName);
+  }
+
 
   private validatorsForTipoDeTarifaControl() {
     this.tipoDeTarifaControl.setValidators([Validators.required]);

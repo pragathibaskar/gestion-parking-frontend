@@ -1,20 +1,4 @@
-<!-- <td-data-table
-#dataTable
-[data]="filteredData"
-[columns]="columns">
-<ng-template tdDataTableTemplate="edit" let-value="value">
-    <mat-icon class="tdDataTableIcon" (click)="dataTableModification($event, filteredData)">more_vert</mat-icon>
-</ng-template>
-</td-data-table>
-<div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
-  <h3>No results to display.</h3>
-</div>
-<td-paging-bar #pagingBar  pageLinkCount="5" [firstLast]="false" [pageSize]="pageSize" [total]="basicData.length" (change)="changeLinks($event)">
-  <span hide-xs>{{pagingBar.range}} of {{pagingBar.total}}</span>
-</td-paging-bar> -->
-
-<!-- TODO: Pagination -->
-<table td-data-table>
+<table td-data-table (scroll)="onScroll($event)" [class.scrollable-table]="scrollable">
   <thead>
     <tr td-data-table-column-row>
       <th td-data-table-column
@@ -28,7 +12,14 @@
   <tbody>
     <tr td-data-table-row *ngFor="let row of filteredData">
       <td td-data-table-cell *ngFor="let column of columns" [numeric]="column.numeric">
-        {{column.format ? column.format(row[column.name]) : row[column.name]}}
+        <span *ngIf="column.name !== 'fechaDesdeVigencia'; else vigencia">
+          {{column.format ? column.format(row[column.name]) : row[column.name]}}
+        </span>
+        <ng-template #vigencia>
+          <span>
+            {{column.format ? column.format(row[column.name]) : row[column.name] | stringToDateFormat}}
+          </span>
+        </ng-template>
       </td>
       <td td-data-table-cell (click)="dataTableModification($event, row)" align="start">
         <mat-icon class="tdDataTableIcon">more_vert</mat-icon>
@@ -36,14 +27,26 @@
     </tr>
   </tbody>
 </table>
+<td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+  <span hide-xs>Rows per page:</span>
+  <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
+    <mat-option *ngFor="let size of [50,100,200,500]" [value]="size">
+      {{size}}
+    </mat-option>
+  </mat-select>
+  {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+</td-paging-bar>
 
 <!-- Tipos De Tarifa options - TODO: Needs to make separate Component : DATTU-->
-<div class="dataTableModification shadow p-3 mb-5 bg-white rounded" *ngIf="view" [ngStyle]="{'top': tdOffsetTop + 'px', 'left': tdOffsetLeft + 'px' }">
-      <ul class="dataTableOptions">
-        <li (click)="edit()"><span><mat-icon>edit</mat-icon></span><span>Editar tipo de tarifa</span></li>
-        <!-- <li><span><mat-icon>visibility</mat-icon></span><span>Ver centros asignadas</span></li>
-        <li><span><mat-icon>check_box</mat-icon></span><span>Marcar por defecto</span></li>
-        <li (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>Borrar tipo de tarifa</span></li> -->
-      </ul>
+<div class="dataTableModification shadow p-3 mb-5 bg-white rounded" #viewElement *ngIf="view" [ngStyle]="{'top': tdOffsetTop + 'px', 'left': tdOffsetLeft + 'px' }">
+  <div class="dataTableOptions">
+      <ul>
+          <li (click)="edit()"><span><mat-icon>edit</mat-icon></span><span>Editar tipo de tarifa</span></li>
+          <!-- <li><span><mat-icon>visibility</mat-icon></span><span>Ver centros asignadas</span></li>
+          <li><span><mat-icon>check_box</mat-icon></span><span>Marcar por defecto</span></li> -->
+          <li (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>Borrar tipo de tarifa</span></li>
+        </ul>
+        <span class="arrow"></span>
+  </div>      
 </div>
 

@@ -1,9 +1,9 @@
-import { Component, OnInit, HostBinding, ViewChild, Input, HostListener, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, Input, HostListener, EventEmitter,
+        Output, ElementRef, AfterViewInit } from '@angular/core';
 
 import { ITdDataTableColumn } from '@covalent/core/data-table';
-import { TdDialogService, IPageChangeEvent, TdPagingBarComponent, TdDataTableService } from '@covalent/core';
+import { TdDialogService, IPageChangeEvent, TdPagingBarComponent, TdDataTableService, TdDataTableSortingOrder } from '@covalent/core';
 import { TipoTarifa } from '../../features/tipos-tarifa/service/tipo-tarifa.service';
-
 
 @Component({
   selector: 'app-table',
@@ -16,23 +16,22 @@ export class TableComponent implements OnInit {
   @ViewChild(TdPagingBarComponent) pagingBar: TdPagingBarComponent;
   @Output() editData = new EventEmitter<TipoTarifa>();
   @Output() deleteData = new EventEmitter<TipoTarifa>();
+  @Input() scrollable = false;
   selectedRow: TipoTarifa;
   tdOffsetTop: number;
   tdOffsetLeft: number;
   prevTarget: HTMLElement;
   view = false;
-  basicData: any[];
-  eventLinks: IPageChangeEvent;
   fromRow: any = 1;
   currentPage: any = 1;
-  pageSize: any = 5;
+  pageSize: any = 10;
   filteredData: TipoTarifa[];
   filteredTotal: number;
-
+  searchTerm = '';
   constructor(private _dataTableService: TdDataTableService) {}
 
-  ngOnInit(): void {
-    this.basicData = this.data;
+  async ngOnInit(): Promise<void> {
+    this.filteredData = this.data;
     this.filter();
   }
 
@@ -40,7 +39,7 @@ export class TableComponent implements OnInit {
     this.selectedRow = value;
     const ele: HTMLElement = <HTMLElement> evt.target;
     this.tdOffsetTop = ele.closest('td').offsetTop - 8;
-    this.tdOffsetLeft = ele.closest('td').offsetLeft - 160;
+    this.tdOffsetLeft = ele.closest('td').offsetLeft - ele.closest('table').scrollLeft - 178;
     if (this.prevTarget === ele) {
       this.view = false;
       this.prevTarget = null;
@@ -53,30 +52,19 @@ export class TableComponent implements OnInit {
   @HostListener('body:click', ['$event'])
   onclick(event) {
     const ele: HTMLElement = <HTMLElement> event.target;
-    console.log(ele.className);
     if (ele.className && !ele.classList.contains('tdDataTableIcon') && !ele.classList.contains('dataTableModification')) {
       this.view = false;
       this.prevTarget = null;
     }
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onScroll() {
     this.view = false;
   }
 
-  changeLinks(pagingEvent: IPageChangeEvent): void {
-    this.eventLinks = pagingEvent;
-    this.fromRow = pagingEvent.fromRow;
-    this.currentPage = pagingEvent.page;
-    this.pageSize = pagingEvent.pageSize;
-    this.filter();
-  }
-
-  async filter(): Promise<void> {
-    // let newData: any[] = this.data;
-    // newData = await this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
-    this.filteredData = this.data;
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.view = false;
   }
 
   showAlert(event: any): void {
@@ -92,4 +80,17 @@ export class TableComponent implements OnInit {
     this.deleteData.emit(this.selectedRow);
   }
 
+  page(pagingEvent: IPageChangeEvent): void {
+    this.fromRow = pagingEvent.fromRow;
+    this.currentPage = pagingEvent.page;
+    this.pageSize = pagingEvent.pageSize;
+    this.filter();
+  }
+
+  async filter(): Promise<void> {
+    let newData: any[] = this.data;
+    this.filteredTotal = newData.length;
+    newData = await this._dataTableService.pageData(newData, this.fromRow, this.currentPage * this.pageSize);
+    this.filteredData = newData;
+  }
 }

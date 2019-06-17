@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ParameterDeTarifaComponent } from './parameter-de-tarifa.component';
 import { ParameterDeTarifaHomeComponent } from './parameter-de-tarifa-home/parameter-de-tarifa-home.component';
+import { ParametroAltaNuevaTarifaComponent } from './parametro-alta-nueva-tarifa/parametro-alta-nueva-tarifa.component';
 
 const routes: Routes = [
   { path: '', component: ParameterDeTarifaComponent, children: [
     { path: '', component: ParameterDeTarifaHomeComponent },
+    { path: 'parametroAltaNuevo', component: ParametroAltaNuevaTarifaComponent },
+    { path: 'parametroAltaNuevo/:id', component: ParametroAltaNuevaTarifaComponent },
   ]}
 ];
 

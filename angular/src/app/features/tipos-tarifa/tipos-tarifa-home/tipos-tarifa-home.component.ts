@@ -1,10 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TipoTarifaService, TipoTarifa } from '../service/tipo-tarifa.service';
 import { Subscription, Observable, of } from 'rxjs';
 import { BREADCRUMB_PATHS } from 'src/app/core/constants/breadcrumb-paths.const';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertsService } from '../../../core/services/alerts/alerts.service';
+import { AbandonProcessService } from 'src/app/core/services/abandon-process/abandon-process.service';
+
 @Component({
   selector: 'app-tipos-tarifa-home',
   templateUrl: './tipos-tarifa-home.component.html',
@@ -27,7 +29,8 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
     private tipoTarifaService: TipoTarifaService,
     private router: Router,
     private route: ActivatedRoute,
-    private alertSerive: AlertsService
+    private alertSerive: AlertsService,
+    private abandonProcessService: AbandonProcessService
   ) {
       this.tipoTarifaService.setTipoTarifaSelectedData(null);
   }
@@ -35,6 +38,7 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getTranslations();
     this.initialLoad();
+    this.abandonProcessService.deactivate();
   }
 
   private initialLoad() {

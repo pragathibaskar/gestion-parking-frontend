@@ -59,7 +59,7 @@ import {
     CovalentMediaModule,
     CovalentLayoutModule,
     CovalentBreadcrumbsModule,
-    CdkTableModule,
+    CdkTableModule
   ],
   exports: [
     CommonModule,

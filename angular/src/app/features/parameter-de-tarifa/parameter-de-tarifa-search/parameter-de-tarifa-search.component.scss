@@ -1,0 +1,20 @@
+.parkingRateParametroManagement {
+    padding-left: 0;
+    .tipos-tarif-search-action {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+        button {
+            font-weight: bold;
+        }
+        button:first-child {
+            margin-right: 16px;
+        }
+    }
+
+    .error-msg {
+        color: red;
+        font-size: 12px;
+        margin-top: -12px;
+    }
+}

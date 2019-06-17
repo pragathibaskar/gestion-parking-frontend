@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TiposTarifaRoutingModule } from './tipos-tarifa-routing.module';
@@ -12,6 +12,8 @@ import { TiposTarifaHomeComponent } from './tipos-tarifa-home/tipos-tarifa-home.
 import { BreadcrumbModule } from '../../shared/breadcrumb/breadcrumb.module';
 import { AlertsService } from '../../core/services/alerts/alerts.service';
 import { SnackBarService } from '../../core/services/snackBar/snackService.service';
+import { AbandonProcessGuard } from 'src/app/core/services/abandon-process/abandon-process.guard';
+import { AbandonProcessService } from 'src/app/core/services/abandon-process/abandon-process.service';
 
 @NgModule({
   imports: [
@@ -31,6 +33,8 @@ import { SnackBarService } from '../../core/services/snackBar/snackService.servi
   ],
   providers: [
     AlertsService,
+    AbandonProcessGuard,
+    AbandonProcessService,
     SnackBarService
   ],
   bootstrap: [TiposTarifaComponent]

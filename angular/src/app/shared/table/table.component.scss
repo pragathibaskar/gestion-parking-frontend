@@ -1,26 +1,36 @@
+.scrollable-table {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+}
+
 .dataTableModification {
     position: absolute;
 
     .dataTableOptions {
-        list-style: none;
-        line-height: 35px;
-        padding: 0;
-        margin: 0;
-        span { margin-right: 12px;}
-        li { cursor: pointer; font-size: 13px;}
-        mat-icon {
-            font-size: 15px;
+        position: relative;
+        ul {
+            list-style: none;
+            line-height: 35px;
+            padding: 0;
+            margin: 0;
+            width:170px;
+            span { margin-right: 12px;}
+            li { cursor: pointer; font-size: 13px;}
+            mat-icon {
+                font-size: 15px;
+            }
         }
     }
 }
 
-.dataTableModification::after{
+span.arrow {
     position: absolute;
     content: '';
     width: 0;
     height: 0;
-    left: 181px;
-    top: 19px;
+    left: 185px;
+    top: 1px;
     border-top: 15px solid transparent;
     border-left: 15px solid #fff;
     border-bottom: 15px solid transparent;
@@ -28,4 +38,9 @@
 
 .tdDataTableIcon {
     cursor: pointer;
+}
+
+td-paging-bar {
+    display: flex;
+    justify-content: center;
 }

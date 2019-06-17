@@ -1,0 +1,20 @@
+.parametroAltaNuevaTarifaManagement {
+    .actions {
+        position: absolute;
+        bottom: 0;
+        background: #bbb;
+        padding: 20px;
+        margin-left: 15px;
+
+        .parametro-tarif-search-action {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-left: 16px;
+        }
+    }
+
+    .form-fields {
+        display: flex;
+    }
+}

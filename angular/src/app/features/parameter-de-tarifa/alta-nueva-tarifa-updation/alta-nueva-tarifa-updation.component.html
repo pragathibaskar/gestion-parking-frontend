@@ -7,7 +7,7 @@
                     <mat-form-field appearance="outline">
                       <mat-label>{{literals.paramTarifas.tipoTarifaLabel}}</mat-label>
                       <mat-select formControlName="tipodeTarifaId" id="tipodeTarifaId">
-                        <mat-option *ngFor="let tipodeTarifa of tipodeTarifas" [value]="tipodeTarifa.id">{{tipodeTarifa.tipodeTarifa}}</mat-option>
+                        <mat-option *ngFor="let tipodeTarifa of tipodeTarifas" [value]="tipodeTarifa.tipodeTarifa">{{tipodeTarifa.tipodeTarifa}}</mat-option>
                       </mat-select>
                       <mat-error *ngIf="hasError('tipodeTarifaId', 'required')">{{literals.requiredField}}</mat-error>
                     </mat-form-field>

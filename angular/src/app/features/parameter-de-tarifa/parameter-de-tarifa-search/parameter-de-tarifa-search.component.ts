@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { BREADCRUMB_PATHS } from '../../../core/constants/breadcrumb-paths.const';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
@@ -30,9 +30,9 @@ export class ParameterDeTarifaSearchComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.parkingRateParametroManagement = formBuilder.group({
-      tipodeTarifa: ['', Validators.required],
-      description: ['', Validators.required],
-      vigenciaDesde: ['', Validators.required]
+      tipodeTarifa: '',
+      description: '',
+      vigenciaDesde: ''
     });
     this.tipoDeTarifaControl = this.parkingRateParametroManagement.get('tipodeTarifa');
     this.tipoDeDescriptionControl = this.parkingRateParametroManagement.get('description');
@@ -81,6 +81,11 @@ export class ParameterDeTarifaSearchComponent implements OnInit {
 
   discard() {
     this.cancel.emit();
+    this.parkingRateParametroManagement.setValue({
+      tipodeTarifa: '',
+      description: '',
+      vigenciaDesde: ''
+    });
   }
 
 }

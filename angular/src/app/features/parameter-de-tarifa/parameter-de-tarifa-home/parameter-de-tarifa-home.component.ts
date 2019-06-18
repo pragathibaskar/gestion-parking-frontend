@@ -27,18 +27,18 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
   dataSource: any[] = [];
   whileLoading = false;
   columns = [
-    { name: 'tipodeTarifa', label: 'Tipo de tarifa'},
-    { name: 'description', label: 'Descripción'},
-    { name: 'fechaDesdeVigencia', label: 'Vegencia desde'},
-    { name: 'importeParkingMax', label: 'Import maximo'},
-    { name: 'importeMinSinCompra', label: 'Importe Min SinCompra'},
-    { name: 'tiempoMaxSinCompra', label: 'Tiempo Max SinCompra'},
-    { name: 'importeMin1Hora', label: 'Importe Min1 Hora'},
-    { name: 'importeMin2Hora', label: 'Importe Min 2Hora'},
-    { name: 'fraccionFacturacion', label: 'Fraccion Facturacion'},
-    { name: 'costeFraccion', label: 'Coste Fraccion'},
-    { name: 'tiempoMaxSalida', label: 'Tiempo Max Salida'},
-    { name: 'numberOfCentros', label: 'Number Of Centros'}
+    { name: 'tipodeTarifa', label: 'Tipo de tarifa', width: 100},
+    { name: 'description', label: 'Descripción', width: 100},
+    { name: 'fechaDesdeVigencia', label: 'Vegencia desde', width: 100},
+    { name: 'importeParkingMax', label: 'Import maximo', width: 100},
+    { name: 'importeMinSinCompra', label: 'Importe Min SinCompra', width: 100},
+    { name: 'tiempoMaxSinCompra', label: 'Tiempo Max SinCompra', width: 100},
+    { name: 'importeMin1Hora', label: 'Importe Min1 Hora', width: 100},
+    { name: 'importeMin2Hora', label: 'Importe Min 2Hora', width: 100},
+    { name: 'fraccionFacturacion', label: 'Fraccion Facturacion', width: 100},
+    { name: 'costeFraccion', label: 'Coste Fraccion', width: 100},
+    { name: 'tiempoMaxSalida', label: 'Tiempo Max Salida', width: 100},
+    { name: 'numberOfCentros', label: 'Number Of Centros', width: 100}
   ];
   constructor(
     private translationService: TranslateService,
@@ -84,11 +84,11 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
 
   search(data: ParameterDeTarifaSearchData) {
     this.whileLoading = false;
-    const beginDate = moment(new Date(data.vigenciaDesde.begin)).format('YYYY-MM-DD').replace(/-/g, '');
-    const endDate = moment(new Date(data.vigenciaDesde.end)).format('YYYY-MM-DD').replace(/-/g, '');
+    const beginDate = data.vigenciaDesde.begin ? moment(new Date(data.vigenciaDesde.begin)).format('YYYY-MM-DD').replace(/-/g, '') : null;
+    const endDate = data.vigenciaDesde.end ? moment(new Date(data.vigenciaDesde.end)).format('YYYY-MM-DD').replace(/-/g, '') : null;
     this.parameterDeTarifaService.searchParametrosTarifaData({
-      tipodeTarifa: data.tipodeTarifa,
-      description: data.description,
+      tipodeTarifa: data.tipodeTarifa ? data.tipodeTarifa : null,
+      description: data.description ? data.description : null,
       startDate: beginDate,
       endDate: endDate
     }).subscribe(list => {
@@ -124,7 +124,7 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
 
   edit(data: ParameterDeTarifas) {
     this.parameterDeTarifaService.setParamatroTarifaSelectedData(data);
-    this.router.navigate(['parametroAltaNuevo', data.id], { relativeTo: this.route });
+    this.router.navigate(['parametroAltaNuevo', data.tipodeTarifa, data.id], { relativeTo: this.route });
   }
 
 }

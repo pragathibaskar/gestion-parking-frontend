@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: '', component: ParameterDeTarifaComponent, children: [
     { path: '', component: ParameterDeTarifaHomeComponent },
     { path: 'parametroAltaNuevo', component: ParametroAltaNuevaTarifaComponent },
-    { path: 'parametroAltaNuevo/:id', component: ParametroAltaNuevaTarifaComponent },
+    { path: 'parametroAltaNuevo/:parametroDeTarifa/:parametroDeTarifaId', component: ParametroAltaNuevaTarifaComponent },
   ]}
 ];
 

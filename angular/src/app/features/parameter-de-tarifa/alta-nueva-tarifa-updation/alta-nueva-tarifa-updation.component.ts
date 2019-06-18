@@ -9,6 +9,8 @@ import { ParameterDeTarifaService, ParameterDeTarifas } from '../service/paramet
 import { TipoTarifa } from '../../tipos-tarifa/service/tipo-tarifa.service';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alta-nueva-tarifa-updation',
@@ -21,6 +23,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AltaNuevaTarifaUpdationComponent implements OnInit {
   @Output() parametroAltaNuevaEvent = new EventEmitter<any>();
+  private unsubscribe = new Subject();
+  tipoTarifaData: TipoTarifa;
   pageHeight: number;
   parametroAltaNuevaTarifa: FormGroup;
   breadcrumb: any[];
@@ -52,6 +56,15 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
     if (this.routeSnapShotParams.length) {
       this.setDefaultValue(this.parameterDeTarifaService.getParamatroTarifaSelectedData());
     }
+
+    this.parametroAltaNuevaTarifa.get('tipodeTarifaId').valueChanges.pipe(
+      takeUntil(this.unsubscribe),
+      distinctUntilChanged()
+    )
+    .subscribe(newValue => {
+      this.tipoTarifaData = this.tipodeTarifas.filter(elem => elem.tipodeTarifa === newValue)[0];
+      this.parametroAltaNuevaTarifa.get('tipodeTarifaId').setValue(this.tipoTarifaData.tipodeTarifa);
+    });
   }
 
   ngOnInit() {
@@ -60,8 +73,9 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
     this.parameterDeTarifaService.findAllTipoTarifaData().subscribe(data => {
       this.tipodeTarifas = data;
       if (this.routeSnapShotParams.length) {
-        const id = parseInt(this.route.snapshot.params['id'], 0);
-        this.parametroAltaNuevaTarifa.get('tipodeTarifaId').setValue(id);
+        this.tipoTarifaData = this.tipodeTarifas.filter(elem => elem.tipodeTarifa === this.route.snapshot.params['parametroDeTarifa'])[0];
+        this.parametroAltaNuevaTarifa.get('tipodeTarifaId').setValue(this.tipoTarifaData.tipodeTarifa);
+        this.parametroAltaNuevaTarifa.get('tipodeTarifaId').disable();
       }
     });
   }
@@ -69,6 +83,7 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
   parametroAltaNuevaTarifaSubmit() {
     if (this.parametroAltaNuevaTarifa.valid) {
       const userValue: ParameterDeTarifas = this.parametroAltaNuevaTarifa.value;
+      const parametroDeTarifaId = this.routeSnapShotParams.length ? this.route.snapshot.params['parametroDeTarifaId'] : null;
       this.parametroAltaNuevaEvent.emit({
         formData: {
           costeFraccion: userValue.costeFraccion,
@@ -76,7 +91,7 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
           endDate: null,
           startDate: null,
           fraccionFacturacion: userValue.fraccionFacturacion,
-          tipodeTarifaId: userValue.tipodeTarifaId,
+          tipodeTarifaId: this.tipoTarifaData.id,
           importeMin1Hora: userValue.importeMin1Hora,
           importeMin2Hora: userValue.importeMin2Hora,
           importeMinSinCompra: userValue.importeMinSinCompra,
@@ -84,6 +99,7 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
           modificationCounter: null,
           tiempoMaxSalida: userValue.tiempoMaxSalida,
           tiempoMaxSinCompra: userValue.tiempoMaxSinCompra,
+          id: parseInt(parametroDeTarifaId, 0)
         },
         isParam: this.routeSnapShotParams.length ? true : false
     });

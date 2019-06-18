@@ -9,11 +9,13 @@
   <app-tipos-tarifa-search [compName]="'home'" (searchData)="search($event)" (cancel)="cancel()"></app-tipos-tarifa-search>
   <div class="col-lg-12">
       <button mat-icon-button color="primary" [routerLink]="['alta']"><mat-icon>add_circle_outline</mat-icon>
-      {{literals.anaditTarifa}}
+      {{literals.tiposTarifa.add}}
       </button>
   </div>
   <mat-card>
-    <app-table *ngIf="this.whileLoading; else loading" [data]="dataSource" [columns]="columns" (editData)="edit($event)" (deleteData)="delete($event)" (checkCenter)="checkCenter($event)"></app-table>
+    <app-table *ngIf="this.whileLoading; else loading" [literals]="literals" [data]="dataSource" [columns]="columns"
+    (editData)="edit($event)" (deleteData)="delete($event)" (checkCenter)="checkCenter($event)"
+    (porDefecto)="setPorDefecto($event)"></app-table>
   </mat-card>
   <ng-template #loading>
     <div class="whileLoading">

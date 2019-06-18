@@ -4,6 +4,8 @@ import { Component, OnInit, HostBinding, ViewChild, Input, HostListener, EventEm
 import { ITdDataTableColumn } from '@covalent/core/data-table';
 import { TdDialogService, IPageChangeEvent, TdPagingBarComponent, TdDataTableService, TdDataTableSortingOrder } from '@covalent/core';
 import { TipoTarifa } from '../../features/tipos-tarifa/service/tipo-tarifa.service';
+import { literal } from '@angular/compiler/src/output/output_ast';
+import { Route, ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -13,10 +15,12 @@ import { TipoTarifa } from '../../features/tipos-tarifa/service/tipo-tarifa.serv
 export class TableComponent implements OnInit {
   @Input() data: TipoTarifa[];
   @Input() columns: any;
+  @Input() literals: any;
   @ViewChild(TdPagingBarComponent) pagingBar: TdPagingBarComponent;
   @Output() editData = new EventEmitter<TipoTarifa>();
   @Output() deleteData = new EventEmitter<TipoTarifa>();
   @Output() checkCenter = new EventEmitter<TipoTarifa>();
+  @Output() porDefecto = new EventEmitter<TipoTarifa>();
   @Input() scrollable = false;
   selectedRow: TipoTarifa;
   tdOffsetTop: number;
@@ -29,11 +33,24 @@ export class TableComponent implements OnInit {
   filteredData: TipoTarifa[];
   filteredTotal: number;
   searchTerm = '';
-  constructor(private _dataTableService: TdDataTableService) {}
+  literalKey: any;
+  constructor(private _dataTableService: TdDataTableService,
+    private route: Router) {}
 
   async ngOnInit(): Promise<void> {
     this.filteredData = this.data;
     this.filter();
+    console.log(this.route.url);
+    if (this.route.url === '/tipos-tarifa') {
+      this.literalKey = 'tiposTarifa';
+    }
+    if (this.route.url === '/parametros-tarifa') {
+      this.literalKey = 'paramTarifas';
+    }
+    if (this.route.url === '/tipos-tarifa/centros-asignados') {
+      this.literalKey = 'centros';
+    }
+
   }
 
   dataTableModification(evt: Event, value: TipoTarifa) {
@@ -83,6 +100,10 @@ export class TableComponent implements OnInit {
 
   navigateToCentros() {
     this.checkCenter.emit(this.selectedRow);
+  }
+
+  setPorDefecto() {
+    this.porDefecto.emit(this.selectedRow);
   }
 
   page(pagingEvent: IPageChangeEvent): void {

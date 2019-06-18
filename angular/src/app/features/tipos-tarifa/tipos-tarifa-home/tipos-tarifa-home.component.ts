@@ -17,10 +17,7 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   store$: Observable<TipoTarifa[]>;
   whileLoading = false;
-  columns = [
-    { name: 'tipodeTarifa', label: 'Tipo de tarifa'},
-    { name: 'description', label: 'Descripción'}
-  ];
+  columns = [];
   literals: any = {};
   breadcrumb: any[];
   breadcrumbPaths: any;
@@ -33,12 +30,16 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
     private abandonProcessService: AbandonProcessService
   ) {
       this.tipoTarifaService.setTipoTarifaSelectedData(null);
+
   }
 
   ngOnInit() {
     this.getTranslations();
+    console.log(this.literals);
+
     this.initialLoad();
     this.abandonProcessService.deactivate();
+
   }
 
   private initialLoad() {
@@ -58,6 +59,7 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
         this.breadcrumbPaths.MANTENIMIENTOS,
         { name: this.breadcrumbPaths.TIPOS_TARIFA.name }
       ];
+      this.setColumns(this.literals);
     });
     this.translationService.onLangChange.subscribe( translations => {
       this.literals = translations.translations;
@@ -67,6 +69,7 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
         this.breadcrumbPaths.MANTENIMIENTOS,
         { name: this.breadcrumbPaths.TIPOS_TARIFA.name }
       ];
+      this.setColumns(this.literals);
     });
   }
 
@@ -93,6 +96,14 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['centros-asignados'], { relativeTo: this.route });
   }
 
+  setPorDefecto(data: TipoTarifa) {
+    this.whileLoading = false;
+    console.log(data);
+    this.tipoTarifaService.setPorDefecto(data).subscribe(porDefecto => {
+      this.initialLoad();
+    });
+  }
+
   search(data) {
     this.whileLoading = false;
     this.tipoTarifaService.searchTipoTarifaData(data).subscribe(list => {
@@ -112,6 +123,14 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   cancel() {
     this.whileLoading = false;
     this.initialLoad();
+  }
+
+  setColumns(literals) {
+    this.columns = [
+      { name: 'tipodeTarifa', label: literals.tiposTarifaTitle},
+      { name: 'description', label: literals.tiposTarifa.descripcion},
+      { name: 'porDefecto', label: literals.tiposTarifa.tipoPorDefecto}
+    ];
   }
 
   ngOnDestroy(): void {

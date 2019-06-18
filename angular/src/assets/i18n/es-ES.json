@@ -132,6 +132,7 @@
   "paramTarifas": {
     "altaParamTarifaTitle": "Alta nueva tarifa",
     "edicionParamTarifaTitle": "Editar tarifa",
+    "edit": "Editar tarifa",
     "anyadirTipoTarifa": "Añadir nuevo",
     "nuevoTipoTarifa": "Nuevo tipo de tarifa",
     "succesEdit": "Tarifa {codigoTipoTarifa} - {descripcion} con fecha {vigenciaDesde} editada con éxito. El número de centros afectados es ",
@@ -152,6 +153,7 @@
     "deleteTarifaConfirm2": " centros",
     "deleteTarifaConfirmTitle": " Borrar tarifa",
     "addTarifa": "Añadir tarifa",
+    "add": "Añadir tarifa",
     "numCentrosColumn": "Número centros",
     "tarifaColumn": "Tipo de tarifa",
     "descColumn": "Descripción",
@@ -166,7 +168,9 @@
     "tiempColumn": "Tiempo máx. salida",
     "modificar": "Editar tarifa",
     "suprimir": "Borrar tarifa",
+    "delete": "Borrar tarifa",
     "detalleCentros": "Ver centros asignados",
+    "showCentrosAsignados": "Ver centros asignados",
     "centrosAsignados": "Centros asignados",
     "codCentroLabel": "Código centro",
     "fechaDesdeLabel": "Fecha desde",
@@ -262,6 +266,9 @@
   "beforeLeaveModal": {
     "titulo": "¡Atención!",
     "mensaje": "¿Estás seguro de que quieres abandonar el proceso? Perderás los cambios realizados"
+  },
+  "centros": {
+    "delete": "Borrar asignación"
   },
   "anaditTarifa": "Añadir tarfia",
   "altaNuevoTipo": "Alta nuevo tipo de tarifa",

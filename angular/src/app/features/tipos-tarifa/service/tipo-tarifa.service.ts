@@ -33,6 +33,7 @@ export class TipoTarifaService {
   private readonly search_tipo_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/search/';
   private readonly centro_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/centrotarifas/custom';
   private readonly search_centro_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/centrotarifas/search/';
+  private readonly set_por_defecto = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/update-boolean/';
 
   constructor(
     private http: HttpClient
@@ -73,5 +74,9 @@ export class TipoTarifaService {
   searchCentrosData(data: CentrosEto): Observable<TipoTarifa[]> {
     return this.http.get<TipoTarifa[]>(this.search_centro_tarifa + data.tipodeTarifa + '/' + data.description
        + '/' + data.centreCode + '/' + data.centreDesc);
+  }
+
+  setPorDefecto(data: TipoTarifa): Observable<TipoTarifa[]> {
+    return this.http.get<TipoTarifa[]>(this.set_por_defecto + data.id);
   }
 }

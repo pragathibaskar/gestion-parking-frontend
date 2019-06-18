@@ -37,6 +37,7 @@ export class AppComponent implements OnInit {
     // NGX Translate
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
     this.i18nService.language = environment.defaultLanguage;
+    this.translate.use(environment.defaultLanguage);
 
     this.supportedLanguages = environment.supportedLanguages;
     this.currentLang = environment.defaultLanguage;

@@ -111,6 +111,10 @@ export class TiposTarifaSearchComponent implements OnInit {
 
   discard() {
     this.cancel.emit();
+    this.parkingRateManagement.setValue({
+      tipodeTarifa: '',
+      description: ''
+    });
   }
 
   parkingRateManagementSubmit() {

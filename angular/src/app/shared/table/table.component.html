@@ -3,7 +3,9 @@
     <tr td-data-table-column-row>
       <th td-data-table-column
           *ngFor="let column of columns"
-          [numeric]="column.numeric">
+          [numeric]="column.numeric"
+          [title]="column.label"
+          [width]="column.width">
         {{column.label}}
       </th>
       <th td-data-table-column></th>
@@ -12,12 +14,15 @@
   <tbody>
     <tr td-data-table-row *ngFor="let row of filteredData">
       <td td-data-table-cell *ngFor="let column of columns" [numeric]="column.numeric">
-        <span *ngIf="column.name !== 'fechaDesdeVigencia'; else vigencia">
+        <span *ngIf="column.name !== 'fechaDesdeVigencia' && column.name !== 'porDefecto'; else vigencia">
           {{column.format ? column.format(row[column.name]) : row[column.name]}}
         </span>
         <ng-template #vigencia>
-          <span>
+          <span *ngIf="column.name === 'fechaDesdeVigencia'">
             {{column.format ? column.format(row[column.name]) : row[column.name] | stringToDateFormat}}
+          </span>
+          <span *ngIf="column.name === 'porDefecto'">
+            <button class="porDefecto" mat-button disabled="disabled">{{row[column.name] ? literals.tiposTarifa.porDefectoLabel : ""}}</button>
           </span>
         </ng-template>
       </td>
@@ -41,10 +46,11 @@
 <div class="dataTableModification shadow p-3 mb-5 bg-white rounded" #viewElement *ngIf="view" [ngStyle]="{'top': tdOffsetTop + 'px', 'left': tdOffsetLeft + 'px' }">
   <div class="dataTableOptions">
       <ul>
-          <li (click)="edit()"><span><mat-icon>edit</mat-icon></span><span>Editar tipo de tarifa</span></li>
-          <li (click)="navigateToCentros()"><span><mat-icon>visibility</mat-icon></span><span>Ver centros asignadas</span></li>
-          <!-- <li><span><mat-icon>check_box</mat-icon></span><span>Marcar por defecto</span></li>  -->
-          <li (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>Borrar tipo de tarifa</span></li>
+          <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="edit()"><span><mat-icon>edit</mat-icon></span><span>{{literals[literalKey].edit}}</span></li>
+          <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="navigateToCentros()"><span><mat-icon>visibility</mat-icon></span><span>{{literals[literalKey].showCentrosAsignados}}</span></li>
+          <li *ngIf="literalKey === 'tiposTarifa'" (click)="setPorDefecto()"><span><mat-icon>check_box</mat-icon></span><span>{{literals[literalKey].setPorDefecto}}</span></li>
+          <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>{{literals[literalKey].delete}}</span></li>
+          <li *ngIf="literalKey === 'centros'" (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>{{literals[literalKey].delete}}</span></li>
         </ul>
         <span class="arrow"></span>
   </div>

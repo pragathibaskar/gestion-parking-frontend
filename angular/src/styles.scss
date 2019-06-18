@@ -1,22 +1,23 @@
-
 /* You can add global styles to this file, and also import other style files */
 .mat-simple-snackbar-action .mat-button {
   color: white !important
 }
+
 td-breadcrumb .td-breadcrumb-separator-icon.mat-icon-no-color {
- display: none !important
+  display: none !important
 }
+
 td-breadcrumbs {
   margin-left: 15px
 }
 
 mat-form-field {
-    font-size: 12px !important;
-    width: 100%;
+  font-size: 12px !important;
+  width: 100%;
 }
 
 .mat-form-field-appearance-outline .mat-form-field-outline-thick {
-    color: rgba(0, 0, 0, 0.12) !important;
+  color: rgba(0, 0, 0, 0.12) !important;
 }
 
 .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
@@ -30,4 +31,28 @@ mat-form-field {
 .mat-error {
   color: #ff0000 !important;
   font-size: 12px;
+}
+
+.porDefecto.mat-button[disabled][disabled] {
+  background: #eeeeee;
+  color: #000000
+}
+
+.td-data-table-row:nth-child(even) {
+  background-color: white;
+}
+
+.td-data-table-row:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+.td-data-table-heading {
+  padding: 0 10px !important;
+}
+.paramTarifaTable .td-data-table-heading {
+  width: 110px;
+  overflow-x: hidden;
+}
+.td-data-table-column, .td-data-table-cell {
+  border-right: #f1f1f1 solid 1px
 }

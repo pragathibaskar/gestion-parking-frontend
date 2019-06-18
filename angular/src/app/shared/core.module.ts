@@ -48,6 +48,7 @@ import {
   CovalentNotificationsModule,
   CovalentCommonModule,
   CovalentBreadcrumbsModule,
+  CovalentTabSelectModule,
 } from '@covalent/core';
 
 @NgModule({
@@ -74,6 +75,7 @@ import {
     CovalentNotificationsModule,
     CovalentCommonModule,
     CovalentBreadcrumbsModule,
+    CovalentTabSelectModule,
     CdkTableModule,
     MatAutocompleteModule,
     MatButtonModule,

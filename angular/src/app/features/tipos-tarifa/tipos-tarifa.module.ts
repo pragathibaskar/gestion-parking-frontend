@@ -14,6 +14,7 @@ import { AlertsService } from '../../core/services/alerts/alerts.service';
 import { SnackBarService } from '../../core/services/snackBar/snackService.service';
 import { AbandonProcessGuard } from 'src/app/core/services/abandon-process/abandon-process.guard';
 import { AbandonProcessService } from 'src/app/core/services/abandon-process/abandon-process.service';
+import { CentrosAsignadosComponent } from './centros-asignados/centros-asignados.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { AbandonProcessService } from 'src/app/core/services/abandon-process/aba
     TiposTarifaComponent,
     TiposTarifaSearchComponent,
     AltaNuevoComponent,
-    TiposTarifaHomeComponent
+    TiposTarifaHomeComponent,
+    CentrosAsignadosComponent
   ],
   providers: [
     AlertsService,

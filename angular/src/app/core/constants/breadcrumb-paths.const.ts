@@ -57,7 +57,9 @@ export const  BREADCRUMB_PATHS = (literals: any = {}) => {
     },
     ALTA_CENTROS_TIPO_TARIFA: {
       name: literals.altaCentrosTipoTarifa
+    },
+    ALTA_PARAM_TARIFAS: {
+      name: literals.altaTarifaTitle
     }
-
   };
 };

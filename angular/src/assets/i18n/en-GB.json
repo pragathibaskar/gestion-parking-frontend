@@ -78,5 +78,6 @@
   "tag": "Genesis",
   "successRecord": "Successfully Added",
   "successDelete": "Successfully Deleted",
-  "noRecord": "No Record Found"
+  "noRecord": "No Record Found",
+  "pleaseWait": "Please wait"
 }

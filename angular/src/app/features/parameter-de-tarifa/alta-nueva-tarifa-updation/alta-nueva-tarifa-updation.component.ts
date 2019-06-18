@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { BREADCRUMB_PATHS } from '../../../core/constants/breadcrumb-paths.const';
@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { ParameterDeTarifaService, ParameterDeTarifas } from '../service/parameter-de-tarifa.service';
 import { TipoTarifa } from '../../tipos-tarifa/service/tipo-tarifa.service';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-alta-nueva-tarifa-updation',
@@ -28,8 +29,10 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
   literals: any = {
     paramTarifas: ''
   };
+  routeSnapShotParams = Object.keys(this.route.snapshot.params);
   constructor(
     private http: HttpClient,
+    private route: ActivatedRoute,
     private translationService: TranslateService,
     private formBuilder: FormBuilder,
     private parameterDeTarifaService: ParameterDeTarifaService
@@ -46,6 +49,9 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
       tiempoMaxSalida: ['', Validators.required],
       tipodeTarifaId: ['', Validators.required]
     });
+    if (this.routeSnapShotParams.length) {
+      this.setDefaultValue(this.parameterDeTarifaService.getParamatroTarifaSelectedData());
+    }
   }
 
   ngOnInit() {
@@ -53,6 +59,10 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
     this.getTranslations();
     this.parameterDeTarifaService.findAllTipoTarifaData().subscribe(data => {
       this.tipodeTarifas = data;
+      if (this.routeSnapShotParams.length) {
+        const id = parseInt(this.route.snapshot.params['id'], 0);
+        this.parametroAltaNuevaTarifa.get('tipodeTarifaId').setValue(id);
+      }
     });
   }
 
@@ -60,20 +70,23 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
     if (this.parametroAltaNuevaTarifa.valid) {
       const userValue: ParameterDeTarifas = this.parametroAltaNuevaTarifa.value;
       this.parametroAltaNuevaEvent.emit({
-        costeFraccion: userValue.costeFraccion,
-        fechaDesdeVigencia: moment(new Date(userValue.fechaDesdeVigencia)).format('YYYY-MM-DD').replace(/-/g, ''),
-        endDate: null,
-        startDate: null,
-        fraccionFacturacion: userValue.fraccionFacturacion,
-        tipodeTarifaId: userValue.tipodeTarifaId,
-        importeMin1Hora: userValue.importeMin1Hora,
-        importeMin2Hora: userValue.importeMin2Hora,
-        importeMinSinCompra: userValue.importeMinSinCompra,
-        importeParkingMax: userValue.importeParkingMax,
-        modificationCounter: null,
-        tiempoMaxSalida: userValue.tiempoMaxSalida,
-        tiempoMaxSinCompra: userValue.tiempoMaxSinCompra
-      });
+        formData: {
+          costeFraccion: userValue.costeFraccion,
+          fechaDesdeVigencia: moment(new Date(userValue.fechaDesdeVigencia)).format('YYYY-MM-DD').replace(/-/g, ''),
+          endDate: null,
+          startDate: null,
+          fraccionFacturacion: userValue.fraccionFacturacion,
+          tipodeTarifaId: userValue.tipodeTarifaId,
+          importeMin1Hora: userValue.importeMin1Hora,
+          importeMin2Hora: userValue.importeMin2Hora,
+          importeMinSinCompra: userValue.importeMinSinCompra,
+          importeParkingMax: userValue.importeParkingMax,
+          modificationCounter: null,
+          tiempoMaxSalida: userValue.tiempoMaxSalida,
+          tiempoMaxSinCompra: userValue.tiempoMaxSinCompra,
+        },
+        isParam: this.routeSnapShotParams.length ? true : false
+    });
     }
   }
 
@@ -101,6 +114,29 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
 
   public hasError = (controlName: string, errorName: string) => {
     return this.parametroAltaNuevaTarifa.controls[controlName].hasError(errorName);
+  }
+
+  dateFormat(value: number): any {
+    const val = value.toString();
+    const dateFormatString = val.slice(0, 4) + '/' + val.slice(4, 6) + '/' + val.slice(6, 8);
+    return new Date(dateFormatString);
+  }
+
+  private setDefaultValue(parametrotarifaData: ParameterDeTarifas) {
+    if (parametrotarifaData) {
+      this.parametroAltaNuevaTarifa.setValue({
+        fechaDesdeVigencia: this.dateFormat(parametrotarifaData.fechaDesdeVigencia),
+        importeParkingMax: parametrotarifaData.importeParkingMax,
+        importeMinSinCompra: parametrotarifaData.importeMinSinCompra,
+        tiempoMaxSinCompra: parametrotarifaData.tiempoMaxSinCompra,
+        importeMin1Hora: parametrotarifaData.importeMin1Hora,
+        importeMin2Hora: parametrotarifaData.importeMin2Hora,
+        fraccionFacturacion: parametrotarifaData.fraccionFacturacion,
+        costeFraccion: parametrotarifaData.costeFraccion,
+        tiempoMaxSalida: parametrotarifaData.tiempoMaxSalida,
+        tipodeTarifaId: null
+      });
+    }
   }
 
 }

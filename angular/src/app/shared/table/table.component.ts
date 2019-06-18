@@ -16,6 +16,7 @@ export class TableComponent implements OnInit {
   @ViewChild(TdPagingBarComponent) pagingBar: TdPagingBarComponent;
   @Output() editData = new EventEmitter<TipoTarifa>();
   @Output() deleteData = new EventEmitter<TipoTarifa>();
+  @Output() checkCenter = new EventEmitter<TipoTarifa>();
   @Input() scrollable = false;
   selectedRow: TipoTarifa;
   tdOffsetTop: number;
@@ -78,6 +79,10 @@ export class TableComponent implements OnInit {
 
   delete() {
     this.deleteData.emit(this.selectedRow);
+  }
+
+  navigateToCentros() {
+    this.checkCenter.emit(this.selectedRow);
   }
 
   page(pagingEvent: IPageChangeEvent): void {

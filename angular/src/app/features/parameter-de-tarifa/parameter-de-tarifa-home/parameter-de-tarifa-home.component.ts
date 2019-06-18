@@ -4,6 +4,7 @@ import { BREADCRUMB_PATHS } from '../../../core/constants/breadcrumb-paths.const
 import { ParameterDeTarifaService, ParameterDeTarifas } from '../service/parameter-de-tarifa.service';
 import { AlertsService } from '../../../core/services/alerts/alerts.service';
 import * as moment from 'moment';
+import { Router, ActivatedRoute } from '@angular/router';
 
 interface ParameterDeTarifaSearchData {
   tipodeTarifa: string;
@@ -42,6 +43,8 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
   constructor(
     private translationService: TranslateService,
     private parameterDeTarifaService: ParameterDeTarifaService,
+    private router: Router,
+    private route: ActivatedRoute,
     private alertSerive: AlertsService
   ) { }
 
@@ -52,7 +55,7 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
 
   private initialLoad() {
     this.parameterDeTarifaService.findAllParametrosTarifa().subscribe(data => {
-      this.dataSource = data;
+      this.dataSource = data.reverse();
       this.whileLoading = true;
     });
   }
@@ -117,6 +120,11 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
       this.whileLoading = true;
       this.alertSerive.danger(this.literals.generic_error_title);
      });
+  }
+
+  edit(data: ParameterDeTarifas) {
+    this.parameterDeTarifaService.setParamatroTarifaSelectedData(data);
+    this.router.navigate(['parametroAltaNuevo', data.id], { relativeTo: this.route });
   }
 
 }

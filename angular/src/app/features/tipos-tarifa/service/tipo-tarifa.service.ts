@@ -15,6 +15,13 @@ export interface TipoTarifaEto {
   description: string;
 }
 
+export interface CentrosEto {
+  tipodeTarifa: string;
+  description: string;
+  centreCode: string;
+  centreDesc: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +31,9 @@ export class TipoTarifaService {
   private readonly edit_tipo_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/update/';
   private readonly add_delete_tipo_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/';
   private readonly search_tipo_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/search/';
+  private readonly centro_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/centrotarifas/custom';
+  private readonly search_centro_tarifa = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/centrotarifas/search/';
+
   constructor(
     private http: HttpClient
   ) { }
@@ -54,5 +64,14 @@ export class TipoTarifaService {
 
   getTipoTarifaSelectedData() {
     return this.selectedData;
+  }
+
+  findAllCentrosData(data: TipoTarifaEto): Observable<TipoTarifa[]> {
+    return this.http.post<TipoTarifa[]>(this.centro_tarifa, data);
+  }
+
+  searchCentrosData(data: CentrosEto): Observable<TipoTarifa[]> {
+    return this.http.get<TipoTarifa[]>(this.search_centro_tarifa + data.tipodeTarifa + '/' + data.description
+       + '/' + data.centreCode + '/' + data.centreDesc);
   }
 }

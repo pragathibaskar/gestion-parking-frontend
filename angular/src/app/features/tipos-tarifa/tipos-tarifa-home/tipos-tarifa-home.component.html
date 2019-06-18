@@ -13,12 +13,12 @@
       </button>
   </div>
   <mat-card>
-    <app-table *ngIf="this.whileLoading; else loading" [data]="dataSource" [columns]="columns" (editData)="edit($event)" (deleteData)="delete($event)"></app-table>
+    <app-table *ngIf="this.whileLoading; else loading" [data]="dataSource" [columns]="columns" (editData)="edit($event)" (deleteData)="delete($event)" (checkCenter)="checkCenter($event)"></app-table>
   </mat-card>
   <ng-template #loading>
     <div class="whileLoading">
       <mat-progress-bar mode="buffer"></mat-progress-bar>
-      <div>please wait...</div>
+      <div>{{literals.pleaseWait}}</div>
     </div>
   </ng-template>
 </mat-card-content>

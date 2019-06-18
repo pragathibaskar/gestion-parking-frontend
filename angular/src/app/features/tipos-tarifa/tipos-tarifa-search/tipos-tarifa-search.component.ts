@@ -16,7 +16,7 @@ export class TiposTarifaSearchComponent implements OnInit {
   literals: any = {
     paramTarifas: ''
   };
-  @Input() compName: string;
+  @Input() compName: any;
   @ViewChild('searchForm') searchForm: NgForm;
   @Output() searchData = new EventEmitter<TipoTarifaEto>();
   @Output() cancel = new EventEmitter();
@@ -65,8 +65,25 @@ export class TiposTarifaSearchComponent implements OnInit {
           description: this.tipoTarifaData.description
         });
       }
+    } else if (this.compName === 'centros') {
+      this.tipoTarifaData = this.tipoTarifaService.getTipoTarifaSelectedData();
+      console.log(this.tipoTarifaData);
+      this.validatorsForTipoDeTarifaControl();
+      this.validatorsForTipoDeDescriptionControl();
+      if (this.tipoTarifaData) {
+        this.parkingRateManagement.setValue({
+          tipodeTarifa: this.tipoTarifaData.tipodeTarifa,
+          description: this.tipoTarifaData.description
+        });
+      }
+      this.tipoDeTarifaControl.disable();
+      this.tipoDeDescriptionControl.disable();
     } else {
       this.pageSize = 0;
+      this.parkingRateManagement.setValue({
+        tipodeTarifa: '',
+        description: ''
+      });
     }
   }
 

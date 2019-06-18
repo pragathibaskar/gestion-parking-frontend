@@ -15,7 +15,7 @@
             <mat-error *ngIf="hasError('description', 'required')">{{literals.requiredField}}</mat-error>
           </mat-form-field>
       </div>
-      <div class="col-lg-4" *ngIf="compName !== 'alta'">
+      <div class="col-lg-4" *ngIf="!(compName == 'alta' || compName =='centros')">
         <div class="tipos-tarif-search-action">
             <button mat-stroked-button color="basic" class="mat-stroked-button" type="button" (click)="discard()"><span>{{literals.clear}}</span></button>
             <button mat-raised-button color="primary" type="submit">{{literals.search}}</button>
@@ -27,7 +27,7 @@
             <div class="alta tipos-tarif-search-action">
                 <button mat-stroked-button color="basic" class="mat-stroked-button"
                   type="button" [routerLink]="'/tipos-tarifa'"><span>{{literals.return}}</span></button>
-                <button mat-raised-button color="primary" 
+                <button mat-raised-button color="primary"
                   type="submit"
                   [disabled]="!parkingRateManagement.valid">{{literals.confirm}}</button>
             </div>

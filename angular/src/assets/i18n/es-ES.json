@@ -267,5 +267,6 @@
   "altaNuevoTipo": "Alta nuevo tipo de tarifa",
   "successRecord": "Agregado exitosamente",
   "successDelete": "Eliminado exitosamente",
-  "noRecord": "ningún record fue encontrado"
+  "noRecord": "ningún record fue encontrado",
+  "pleaseWait": "por favor espera"
 }

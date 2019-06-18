@@ -1,49 +1,66 @@
-import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { TipoTarifaService, TipoTarifa } from '../service/tipo-tarifa.service';
+import { TipoTarifaService, TipoTarifa, TipoTarifaEto } from '../service/tipo-tarifa.service';
 import { Subscription, Observable, of } from 'rxjs';
 import { BREADCRUMB_PATHS } from 'src/app/core/constants/breadcrumb-paths.const';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertsService } from '../../../core/services/alerts/alerts.service';
-import { AbandonProcessService } from 'src/app/core/services/abandon-process/abandon-process.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-tipos-tarifa-home',
-  templateUrl: './tipos-tarifa-home.component.html',
-  styleUrls: ['./tipos-tarifa-home.component.scss']
+  selector: 'app-centros-asignados',
+  templateUrl: './centros-asignados.component.html',
+  styleUrls: ['./centros-asignados.component.scss']
 })
-export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
+export class CentrosAsignadosComponent implements OnInit, OnDestroy {
   dataSource: TipoTarifa[] = [];
   subscription: Subscription;
   store$: Observable<TipoTarifa[]>;
   whileLoading = false;
   columns = [
-    { name: 'tipodeTarifa', label: 'Tipo de tarifa'},
-    { name: 'description', label: 'Descripción'}
+    { name: 'centro', label: 'Código centro'},
+    { name: 'descripcion', label: 'Description'},
+    { name: 'fechaDesdeVigencia', label: 'Vigencia Desde'}
   ];
   literals: any = {};
   breadcrumb: any[];
   breadcrumbPaths: any;
+  selectedTab = 'centros';
+  tipoDeTarifaControl;
+  tipoDeDescriptionControl;
+  parkingRateManagement: FormGroup;
   constructor(
+    private formBuilder: FormBuilder,
     private readonly translationService: TranslateService,
     private tipoTarifaService: TipoTarifaService,
     private router: Router,
     private route: ActivatedRoute,
-    private alertSerive: AlertsService,
-    private abandonProcessService: AbandonProcessService
+    private alertSerive: AlertsService
   ) {
-      this.tipoTarifaService.setTipoTarifaSelectedData(null);
+      // this.tipoTarifaService.setTipoTarifaSelectedData(null);
+      this.parkingRateManagement = this.formBuilder.group({
+        tipodeTarifa: '',
+        description: ''
+      });
+      this.tipoDeTarifaControl = this.parkingRateManagement.get('tipodeTarifa');
+      this.tipoDeDescriptionControl = this.parkingRateManagement.get('description');
+      this.tipoDeTarifaControl.setValidators([Validators.required]);
+      this.tipoDeTarifaControl.updateValueAndValidity();
+      this.tipoDeDescriptionControl.setValidators([Validators.required]);
+      this.tipoDeDescriptionControl.updateValueAndValidity();
   }
 
   ngOnInit() {
     this.getTranslations();
     this.initialLoad();
-    this.abandonProcessService.deactivate();
   }
 
   private initialLoad() {
-    this.subscription = this.tipoTarifaService.findAllTipoTarifaData().subscribe((data: TipoTarifa[]) => {
+    const selectedTipoTarifa: TipoTarifa = this.tipoTarifaService.getTipoTarifaSelectedData();
+    const tipoTarifaPayload: TipoTarifaEto = {tipodeTarifa: selectedTipoTarifa.tipodeTarifa, description: selectedTipoTarifa.description};
+    this.subscription = this.tipoTarifaService.findAllCentrosData(tipoTarifaPayload).subscribe((data: TipoTarifa[]) => {
       this.dataSource = data.reverse();
+      console.log(this.dataSource);
       this.whileLoading = true;
     });
   }
@@ -52,11 +69,13 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
     const currentLang = this.translationService.currentLang;
     this.translationService.getTranslation(currentLang).subscribe(translations => {
       this.literals = translations;
+      console.log(this.literals);
       this.breadcrumbPaths = BREADCRUMB_PATHS(this.literals);
       this.breadcrumb = [
         this.breadcrumbPaths.HOME,
         this.breadcrumbPaths.MANTENIMIENTOS,
-        { name: this.breadcrumbPaths.TIPOS_TARIFA.name }
+        this.breadcrumbPaths.TIPOS_TARIFA,
+        { name: this.breadcrumbPaths.CENTROS_ASIGNADOS_TIPO_TARIFA.name }
       ];
     });
     this.translationService.onLangChange.subscribe( translations => {
@@ -65,9 +84,33 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
       this.breadcrumb = [
         this.breadcrumbPaths.HOME,
         this.breadcrumbPaths.MANTENIMIENTOS,
-        { name: this.breadcrumbPaths.TIPOS_TARIFA.name }
+        this.breadcrumbPaths.TIPOS_TARIFA,
+        { name: this.breadcrumbPaths.CENTROS_ASIGNADOS_TIPO_TARIFA.name }
       ];
     });
+  }
+
+  parkingRateManagementSubmit() {
+    if (this.parkingRateManagement.valid) {
+      const selectedTipoTarifa: TipoTarifa = this.tipoTarifaService.getTipoTarifaSelectedData();
+      const payload = {
+        tipodeTarifa: selectedTipoTarifa.tipodeTarifa,
+        description: selectedTipoTarifa.description,
+        centreCode: this.tipoDeTarifaControl.value,
+        centreDesc: this.tipoDeDescriptionControl.value
+      };
+      console.log(payload);
+      this.subscription = this.tipoTarifaService.searchCentrosData(payload).subscribe((data: TipoTarifa[]) => {
+        this.dataSource = data.reverse();
+        console.log(this.dataSource);
+        this.whileLoading = true;
+      });
+    }
+  }
+
+  discard() {
+    this.parkingRateManagement.reset();
+    this.initialLoad();
   }
 
   edit(data: TipoTarifa) {
@@ -85,12 +128,6 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
       this.whileLoading = true;
       this.alertSerive.danger(this.literals.generic_error_title);
      });
-  }
-
-  checkCenter(data: TipoTarifa) {
-    console.log(data);
-    this.tipoTarifaService.setTipoTarifaSelectedData(data);
-    this.router.navigate(['centros-asignados'], { relativeTo: this.route });
   }
 
   search(data) {

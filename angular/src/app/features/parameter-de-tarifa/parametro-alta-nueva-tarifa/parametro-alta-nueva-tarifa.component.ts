@@ -35,7 +35,8 @@ export class ParametroAltaNuevaTarifaComponent implements OnInit {
       this.breadcrumb = [
         this.breadcrumbPaths.HOME,
         this.breadcrumbPaths.MANTENIMIENTOS,
-        { name: this.breadcrumbPaths.PARAM_TARIFAS.name }
+        this.breadcrumbPaths.PARAM_TARIFAS,
+        { name: this.breadcrumbPaths.ALTA_PARAM_TARIFAS.name }
       ];
     });
     this.translationService.onLangChange.subscribe( translations => {
@@ -43,19 +44,28 @@ export class ParametroAltaNuevaTarifaComponent implements OnInit {
       this.breadcrumbPaths = BREADCRUMB_PATHS(this.literals);
       this.breadcrumb = [
         this.breadcrumbPaths.HOME,
-        this.breadcrumbPaths.MANTENIMIENTOS,
-        { name: this.breadcrumbPaths.TIPOS_TARIFA.name }
+        this.breadcrumbPaths.PARAM_TARIFAS,
+        { name: this.breadcrumbPaths.ALTA_PARAM_TARIFAS.name }
       ];
     });
   }
 
-  formSubmittion(userData: ParameterDeTarifas) {
-    this.parameterDeTarifaService.saveParametroDeTarifaData(userData).subscribe(data => {
-      this.alertService.success(this.literals.successRecord);
-      this.router.navigate(['/parametros-tarifa']);
-    }, error => {
-      this.alertService.danger(this.literals.generic_error_title);
-    });
+  formSubmittion(userData: { formData: ParameterDeTarifas, isParam: boolean }) {
+    if (!userData.isParam) {
+      this.parameterDeTarifaService.saveParametroDeTarifaData(userData.formData).subscribe(data => {
+        this.alertService.success(this.literals.successRecord);
+        this.router.navigate(['/parametros-tarifa']);
+      }, error => {
+        this.alertService.danger(this.literals.generic_error_title);
+      });
+    } else {
+      this.parameterDeTarifaService.editParametroDeTarifaData(userData.formData).subscribe(data => {
+        this.alertService.success(this.literals.successRecord);
+        this.router.navigate(['/parametros-tarifa']);
+      }, error => {
+        this.alertService.danger(this.literals.generic_error_title);
+      });
+    }
   }
 
 }

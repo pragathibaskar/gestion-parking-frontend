@@ -60,6 +60,10 @@ export const  BREADCRUMB_PATHS = (literals: any = {}) => {
     },
     ALTA_PARAM_TARIFAS: {
       name: literals.altaTarifaTitle
+    },
+    CENTROS_ASIGNADOS_TARIFA: {
+      name: literals.centrosAsignedTarifaTitle,
+      link: `/${PATHS.paramsTarifa}/${PATHS.centrosAsignedTarifa}`
     }
   };
 };

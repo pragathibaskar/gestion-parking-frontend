@@ -11,7 +11,7 @@
       </button>
   </div>
   <mat-card class="paramTarifaTable">
-    <app-table *ngIf="this.whileLoading; else loading" [literals]="literals" [data]="dataSource" [columns]="columns" [scrollable]=true (editData)="edit($event)" (deleteData)="delete($event)"></app-table>
+    <app-table *ngIf="this.whileLoading; else loading" [literals]="literals" [data]="dataSource" [columns]="columns" (checkCenter)="checkCenter($event)" [scrollable]=true (editData)="edit($event)" (deleteData)="delete($event)"></app-table>
   </mat-card>
   <ng-template #loading>
     <!-- <mat-spinner class="loading"></mat-spinner> -->

@@ -13,7 +13,8 @@ export const PATHS = {
   edicionTipoTarifa: 'edicion',
   centrosAsignadosTipoTarifa: 'centros-asignados',
   altaCentrosAsignadosTipoTarifa: 'alta',
-  confParametros: 'mantenimiento-parametros-configuracion'
+  confParametros: 'mantenimiento-parametros-configuracion',
+  centrosAsignedTarifa: 'centros-asigned-tarifa'
 };
 
 export const ACTIONS = {

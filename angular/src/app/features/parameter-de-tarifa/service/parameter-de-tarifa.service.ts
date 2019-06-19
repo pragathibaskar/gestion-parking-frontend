@@ -8,16 +8,14 @@ export interface ParameterDeTarifas {
   costeFraccion: number;
   description: string;
   endDate: string;
-  fechaDesdeVigencia: number;
-  fechaModificacion: number;
-  fraccionFacturacion: number;
-  tipodeTarifaId: number;
+  fechaDesdeVigencia?: number;
+  fraccionFacturacion?: number;
+  tipodeTarifaId?: number;
   importeMin1Hora: number;
   importeMin2Hora: number;
   importeMinSinCompra: number;
   importeParkingMax: number;
-  modificationCounter: number;
-  numberOfCentros: number;
+  numberOfCentros?: number;
   startDate: string;
   tiempoMaxSalida: number;
   tiempoMaxSinCompra: number;
@@ -32,6 +30,22 @@ export interface ParameterDeTarifaAdvanceSearch {
   endDate: string;
 }
 
+export interface CentrosAsigned {
+  tipodeTarifa: string;
+  description: string;
+  fechaDesdeVigencia: number;
+  centro: number;
+}
+
+export interface CentrosAsignedSearch {
+  tipodeTarifa: string;
+  description: string;
+  fechaDesdeVigencia: number;
+  centro: number;
+  mastroDescripcion: string;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,7 +57,10 @@ export class ParameterDeTarifaService {
   private readonly tipo_tarifaUri = environment.serverUrl + 'services/rest/tipotarifamanagement/v1/tipotarifa/findAll';
   private readonly saveParametroDeTarifaUri = environment.serverUrl + 'services/rest/parametrotarifamanagement/v1/parametrotarifa/';
   private readonly editParametroDeTarifaUri = environment.serverUrl + 'services/rest/parametrotarifamanagement/v1/parametrotarifa/';
+  private readonly centros_asinged = environment.serverUrl + 'services/rest/centrotarifamanagement/v1/centrotarifa/centros-search';
+  private readonly search_tipo_tarifa = environment.serverUrl + 'services/rest/centrotarifamanagement/v1/centrotarifa/advance-search';
   selectedData: ParameterDeTarifas;
+  selectedDataTipo: TipoTarifa;
   constructor(
     private http: HttpClient
   ) { }
@@ -52,7 +69,7 @@ export class ParameterDeTarifaService {
     return this.http.get<ParameterDeTarifas[]>(this.findAllParametrotarifasUri);
   }
 
-  searchParametrosTarifaData(data: ParameterDeTarifaAdvanceSearch): Observable<ParameterDeTarifas[]> {
+  searchParametrosTarifaData(data: ParameterDeTarifas): Observable<ParameterDeTarifas[]> {
     return this.http.post<ParameterDeTarifas[]>(this.search_parametro_tarifasUri, data);
   }
 
@@ -78,5 +95,21 @@ export class ParameterDeTarifaService {
 
   getParamatroTarifaSelectedData() {
     return this.selectedData;
+  }
+
+  findAllCentrosAssignedData(data: CentrosAsigned): Observable<TipoTarifa[]> {
+  return this.http.post<TipoTarifa[]>(this.centros_asinged, data);
+  }
+
+  searchTipoTarifaData(data: CentrosAsignedSearch): Observable<TipoTarifa[]> {
+  return this.http.post<TipoTarifa[]>(this.search_tipo_tarifa, data);
+  }
+
+  setTipoTarifaSelectedData(data: TipoTarifa) {
+    this.selectedDataTipo = data;
+  }
+
+  getTipoTarifaSelectedData() {
+    return this.selectedDataTipo;
   }
 }

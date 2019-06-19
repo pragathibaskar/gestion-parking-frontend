@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective, FormControl, AbstractControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { BREADCRUMB_PATHS } from '../../../core/constants/breadcrumb-paths.const';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
@@ -11,6 +11,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./parameter-de-tarifa-search.component.scss']
 })
 export class ParameterDeTarifaSearchComponent implements OnInit {
+  isAdvanceSearch = false;
+  private initialControls = {
+    tipodeTarifa: '',
+    description: '',
+    vigenciaDesde: ''
+  };
   @Input() compName: string;
   @Output() searchData = new EventEmitter<any>();
   @Output() cancel = new EventEmitter();
@@ -29,11 +35,7 @@ export class ParameterDeTarifaSearchComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.parkingRateParametroManagement = formBuilder.group({
-      tipodeTarifa: '',
-      description: '',
-      vigenciaDesde: ''
-    });
+    this.parkingRateParametroManagement = formBuilder.group(this.initialControls);
     this.tipoDeTarifaControl = this.parkingRateParametroManagement.get('tipodeTarifa');
     this.tipoDeDescriptionControl = this.parkingRateParametroManagement.get('description');
   }
@@ -79,12 +81,46 @@ export class ParameterDeTarifaSearchComponent implements OnInit {
     }
   }
 
+  advanceSearch() {
+    this.isAdvanceSearch = !this.isAdvanceSearch;
+    const controls: string[] = ['importeParkingMax', 'importeMinSinCompra', 'tiempoMaxSinCompra',
+    'importeMin1Hora', 'importeMin2Hora', 'fraccionFacturacion', 'costeFraccion',
+    'tiempoMaxSalida', 'numberOfCentros'];
+
+    if (this.isAdvanceSearch) {
+      this.addFormControls(controls);
+    } else {
+      this.removeFormControl(controls);
+    }
+  }
+
+  private addFormControls(controls) {
+    controls.forEach(element => {
+      this.parkingRateParametroManagement.addControl(element, new FormControl(''));
+    });
+  }
+
+  private removeFormControl(controls) {
+    controls.forEach(element => {
+      this.parkingRateParametroManagement.removeControl(element);
+    });
+  }
+
   discard() {
     this.cancel.emit();
     this.parkingRateParametroManagement.setValue({
       tipodeTarifa: '',
       description: '',
-      vigenciaDesde: ''
+      vigenciaDesde: '',
+      importeParkingMax: '',
+      importeMinSinCompra: '',
+      tiempoMaxSinCompra: '',
+      importeMin1Hora: '',
+      importeMin2Hora: '',
+      fraccionFacturacion: '',
+      costeFraccion: '',
+      tiempoMaxSalida: '',
+      numberOfCentros: ''
     });
   }
 

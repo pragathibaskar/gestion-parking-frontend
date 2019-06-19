@@ -79,5 +79,6 @@
   "successRecord": "Successfully Added",
   "successDelete": "Successfully Deleted",
   "noRecord": "No Record Found",
-  "pleaseWait": "Please wait"
+  "pleaseWait": "Please wait",
+  "rowPerPage": "Rows per page"
 }

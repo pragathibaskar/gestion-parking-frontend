@@ -43,14 +43,14 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
   ) {
     this.parametroAltaNuevaTarifa = formBuilder.group({
       fechaDesdeVigencia: ['', Validators.required],
-      importeParkingMax: ['', Validators.required],
-      importeMinSinCompra: ['', Validators.required],
-      tiempoMaxSinCompra: ['', Validators.required],
-      importeMin1Hora: ['', Validators.required],
-      importeMin2Hora: ['', Validators.required],
+      importeParkingMax: '',
+      importeMinSinCompra: '',
+      tiempoMaxSinCompra: '',
+      importeMin1Hora: '',
+      importeMin2Hora: '',
       fraccionFacturacion: ['', Validators.required],
       costeFraccion: ['', Validators.required],
-      tiempoMaxSalida: ['', Validators.required],
+      tiempoMaxSalida: '',
       tipodeTarifaId: ['', Validators.required]
     });
     if (this.routeSnapShotParams.length) {
@@ -76,6 +76,7 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
         this.tipoTarifaData = this.tipodeTarifas.filter(elem => elem.tipodeTarifa === this.route.snapshot.params['parametroDeTarifa'])[0];
         this.parametroAltaNuevaTarifa.get('tipodeTarifaId').setValue(this.tipoTarifaData.tipodeTarifa);
         this.parametroAltaNuevaTarifa.get('tipodeTarifaId').disable();
+        this.parametroAltaNuevaTarifa.get('fechaDesdeVigencia').disable();
       }
     });
   }

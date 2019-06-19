@@ -16,6 +16,8 @@ import { AlertsService } from '../../core/services/alerts/alerts.service';
 import { SnackBarService } from '../../core/services/snackBar/snackService.service';
 import { ParametroAltaNuevaTarifaComponent } from './parametro-alta-nueva-tarifa/parametro-alta-nueva-tarifa.component';
 import { AltaNuevaTarifaUpdationComponent } from './alta-nueva-tarifa-updation/alta-nueva-tarifa-updation.component';
+import { AllowNumericOnlyDirective } from '../../shared/gestionParkingDirectives/allow-numeric-only.directive';
+import { CentrosAsignadoaComponent } from './centros-asignadoa/centros-asignadoa.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { AltaNuevaTarifaUpdationComponent } from './alta-nueva-tarifa-updation/a
     ParameterDeTarifaHomeComponent,
     ParameterDeTarifaSearchComponent,
     ParametroAltaNuevaTarifaComponent,
-    AltaNuevaTarifaUpdationComponent
+    AltaNuevaTarifaUpdationComponent,
+    AllowNumericOnlyDirective,
+    CentrosAsignadoaComponent
   ],
   imports: [
     CommonModule,

@@ -7,9 +7,12 @@ import * as moment from 'moment';
 export class StringToDateFormatPipe implements PipeTransform {
 
   transform(value: number): any {
-    const val = value.toString();
-    const dateFormatString = val.slice(0, 4) + '/' + val.slice(4, 6) + '/' + val.slice(6, 8);
-    return moment(new Date(dateFormatString)).format('DD/MM/YYYY');
+    if (value) {
+      const val = value.toString();
+      const dateFormatString = val.slice(0, 4) + '/' + val.slice(4, 6) + '/' + val.slice(6, 8);
+      return moment(new Date(dateFormatString)).format('DD/MM/YYYY');
+    }
+    return null;
   }
 
 }

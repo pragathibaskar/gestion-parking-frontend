@@ -275,5 +275,7 @@
   "successRecord": "Agregado exitosamente",
   "successDelete": "Eliminado exitosamente",
   "noRecord": "ningún record fue encontrado",
-  "pleaseWait": "por favor espera"
+  "pleaseWait": "por favor espera",
+  "Gratuita": "Gratuita",
+  "rowPerPage": "Filas por página"
 }

@@ -17,4 +17,13 @@
     .form-fields {
         display: flex;
     }
+
+    .prefix {
+        font-size: 14px;
+        vertical-align: top;
+        position: relative;
+        top: -2px;
+        left: -4px;
+        color: rgba(0, 0, 0, 0.54);
+    }
 }

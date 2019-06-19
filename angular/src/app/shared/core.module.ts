@@ -109,7 +109,6 @@ import {
     MatTooltipModule,
     HttpClientModule,
   ],
-  declarations: [],
   providers: [
     HttpClientModule
   ],

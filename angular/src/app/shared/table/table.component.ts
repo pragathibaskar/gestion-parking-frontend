@@ -22,6 +22,7 @@ export class TableComponent implements OnInit {
   @Output() checkCenter = new EventEmitter<TipoTarifa>();
   @Output() porDefecto = new EventEmitter<TipoTarifa>();
   @Input() scrollable = false;
+  @Input() showView = true;
   selectedRow: TipoTarifa;
   tdOffsetTop: number;
   tdOffsetLeft: number;
@@ -50,7 +51,9 @@ export class TableComponent implements OnInit {
     if (this.route.url === '/tipos-tarifa/centros-asignados') {
       this.literalKey = 'centros';
     }
-
+    if (this.route.url === '/parametros-tarifa/centros-asignados') {
+      this.literalKey = 'centrosAsignedTarifa';
+    }
   }
 
   dataTableModification(evt: Event, value: TipoTarifa) {

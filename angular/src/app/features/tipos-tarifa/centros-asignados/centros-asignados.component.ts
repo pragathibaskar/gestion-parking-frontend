@@ -44,9 +44,9 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
       });
       this.tipoDeTarifaControl = this.parkingRateManagement.get('tipodeTarifa');
       this.tipoDeDescriptionControl = this.parkingRateManagement.get('description');
-      this.tipoDeTarifaControl.setValidators([Validators.required]);
+      // this.tipoDeTarifaControl.setValidators([Validators.required]);
       this.tipoDeTarifaControl.updateValueAndValidity();
-      this.tipoDeDescriptionControl.setValidators([Validators.required]);
+      // this.tipoDeDescriptionControl.setValidators([Validators.required]);
       this.tipoDeDescriptionControl.updateValueAndValidity();
   }
 
@@ -58,7 +58,7 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
   private initialLoad() {
     const selectedTipoTarifa: TipoTarifa = this.tipoTarifaService.getTipoTarifaSelectedData();
     const tipoTarifaPayload: TipoTarifaEto = {tipodeTarifa: selectedTipoTarifa.tipodeTarifa, description: selectedTipoTarifa.description};
-    this.subscription = this.tipoTarifaService.findAllCentrosData(tipoTarifaPayload).subscribe((data: TipoTarifa[]) => {
+    this.tipoTarifaService.findAllCentrosData(tipoTarifaPayload).subscribe((data: TipoTarifa[]) => {
       this.dataSource = data.reverse();
       console.log(this.dataSource);
       this.whileLoading = true;
@@ -91,21 +91,33 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
   }
 
   parkingRateManagementSubmit() {
-    if (this.parkingRateManagement.valid) {
-      const selectedTipoTarifa: TipoTarifa = this.tipoTarifaService.getTipoTarifaSelectedData();
-      const payload = {
-        tipodeTarifa: selectedTipoTarifa.tipodeTarifa,
-        description: selectedTipoTarifa.description,
-        centreCode: this.tipoDeTarifaControl.value,
-        centreDesc: this.tipoDeDescriptionControl.value
-      };
-      console.log(payload);
-      this.subscription = this.tipoTarifaService.searchCentrosData(payload).subscribe((data: TipoTarifa[]) => {
-        this.dataSource = data.reverse();
-        console.log(this.dataSource);
-        this.whileLoading = true;
-      });
+    const selectedTipoTarifa: TipoTarifa = this.tipoTarifaService.getTipoTarifaSelectedData();
+    this.whileLoading = false;
+    const searchData = {};
+    searchData['tipodeTarifa'] = selectedTipoTarifa.tipodeTarifa;
+    searchData['description'] = selectedTipoTarifa.description;
+    if (this.tipoDeTarifaControl.value !== '') {
+      searchData['centro'] = this.tipoDeTarifaControl.value;
     }
+    if (this.tipoDeDescriptionControl.value !== '') {
+      searchData['mastroDescripcion'] = this.tipoDeDescriptionControl.value;
+    }
+
+    console.log(searchData);
+    // return false;
+
+    this.tipoTarifaService.searchTipoCentrosData(searchData).subscribe(list => {
+      this.whileLoading = true;
+      if (list['content'].length) {
+        this.dataSource = list['content'];
+      } else {
+        this.dataSource = [];
+        this.alertSerive.warning(this.literals.noRecord);
+      }
+    }, error => {
+      this.whileLoading = true;
+      this.alertSerive.danger(this.literals.generic_error_title);
+    });
   }
 
   discard() {
@@ -118,32 +130,18 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
     this.router.navigate(['alta', data.id], { relativeTo: this.route });
   }
 
-  delete(tipoTarifData: TipoTarifa) {
+  delete(tipoTarifData: any) {
+    console.log(tipoTarifData);
     this.whileLoading = false;
-    this.tipoTarifaService.deleteTipoTarifaData(tipoTarifData).subscribe(data => {
+    this.tipoTarifaService.deleteCentroTarifaData(tipoTarifData).subscribe(data => {
       this.alertSerive.success(this.literals.successDelete);
       this.whileLoading = true;
-      this.dataSource = this.dataSource.filter(dataT => dataT.id !== tipoTarifData.id);
+      // this.dataSource = this.dataSource.filter(dataT => dataT.id !== tipoTarifData.id);
+      this.initialLoad();
     }, error => {
       this.whileLoading = true;
       this.alertSerive.danger(this.literals.generic_error_title);
      });
-  }
-
-  search(data) {
-    this.whileLoading = false;
-    this.tipoTarifaService.searchTipoTarifaData(data).subscribe(list => {
-      this.whileLoading = true;
-      if (list['content'].length) {
-        this.dataSource = list['content'];
-      } else {
-        this.dataSource = [];
-        this.alertSerive.warning(this.literals.noRecord);
-      }
-    }, error => {
-      this.whileLoading = true;
-      this.alertSerive.danger(this.literals.generic_error_title);
-    });
   }
 
   cancel() {

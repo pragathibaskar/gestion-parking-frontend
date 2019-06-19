@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <div class="parkingRateParametroManagement" #parkingRateType [style.height.px]="pageHeight">
+  <div class="parkingRateParametroManagement" #parkingRateType [style.height.px]="">
     <form [formGroup]="parkingRateManagement" (ngSubmit)="parkingRateManagementSubmit()" novalidate>
       <div class="row">
         <div class="col-lg-3">
@@ -43,7 +43,7 @@
         </div>
         <div class="col-lg-4">
           <div class="tipos-tarif-search-action">
-              <button mat-stroked-button color="basic" class="mat-stroked-button" type="button" (click)="discard()"><span>{{'Limpiar'}}</span></button>
+              <button mat-stroked-button color="basic" class="mat-stroked-button" type="button" (click)="cancel()"><span>{{'Limpiar'}}</span></button>
               <button mat-raised-button color="primary" type="submit">{{'Buscar'}}</button>
           </div>
         </div>

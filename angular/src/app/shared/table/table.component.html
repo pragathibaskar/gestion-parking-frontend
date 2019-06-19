@@ -42,7 +42,7 @@
             <span *ngSwitchDefault>
                 {{column.format ? column.format(row[column.name]) : row[column.name] }}
             </span>
-            
+
         </div>
       </td>
       <td td-data-table-cell (click)="dataTableModification($event, row)" align="start" *ngIf="showView">
@@ -66,7 +66,7 @@
   <div class="dataTableOptions">
       <ul>
           <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="edit()"><span><mat-icon>edit</mat-icon></span><span>{{literals[literalKey].edit}}</span></li>
-          <li *ngIf="literalKey === 'parametros-tarifa' || literalKey === 'paramTarifas'" (click)="navigateToCentros()"><span><mat-icon>visibility</mat-icon></span><span>{{literals[literalKey].showCentrosAsignados}}</span></li>
+          <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="navigateToCentros()"><span><mat-icon>visibility</mat-icon></span><span>{{literals[literalKey].showCentrosAsignados}}</span></li>
           <li *ngIf="literalKey === 'tiposTarifa'" (click)="setPorDefecto()"><span><mat-icon>check_box</mat-icon></span><span>{{literals[literalKey].setPorDefecto}}</span></li>
           <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>{{literals[literalKey].delete}}</span></li>
           <li *ngIf="literalKey === 'centros'" (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>{{literals[literalKey].delete}}</span></li>

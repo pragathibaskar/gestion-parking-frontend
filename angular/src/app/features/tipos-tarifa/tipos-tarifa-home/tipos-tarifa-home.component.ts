@@ -18,7 +18,9 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   store$: Observable<TipoTarifa[]>;
   whileLoading = false;
   columns = [];
-  literals: any = {};
+  literals: any = {
+    tiposTarifa: ''
+  };
   breadcrumb: any[];
   breadcrumbPaths: any;
   constructor(

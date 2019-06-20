@@ -277,5 +277,6 @@
   "noRecord": "ningún record fue encontrado",
   "pleaseWait": "por favor espera",
   "Gratuita": "Gratuita",
-  "rowPerPage": "Filas por página"
+  "rowPerPage": "Filas por página",
+  "numberShouldGreaterThanZero": "Número debe ser mayor que 0"
 }

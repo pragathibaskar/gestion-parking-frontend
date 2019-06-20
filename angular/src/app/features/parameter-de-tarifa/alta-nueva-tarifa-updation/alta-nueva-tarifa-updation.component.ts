@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil, distinctUntilChanged } from 'rxjs/operators';
+import { ParametroDeTarifaValidators } from '../validation/parametro-de-tarifa-validators';
 
 @Component({
   selector: 'app-alta-nueva-tarifa-updation',
@@ -23,6 +24,7 @@ import { takeUntil, distinctUntilChanged } from 'rxjs/operators';
 })
 export class AltaNuevaTarifaUpdationComponent implements OnInit {
   @Output() parametroAltaNuevaEvent = new EventEmitter<any>();
+  minDate = new Date();
   private unsubscribe = new Subject();
   tipoTarifaData: TipoTarifa;
   pageHeight: number;
@@ -48,8 +50,8 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
       tiempoMaxSinCompra: '',
       importeMin1Hora: '',
       importeMin2Hora: '',
-      fraccionFacturacion: ['', Validators.required],
-      costeFraccion: ['', Validators.required],
+      fraccionFacturacion: ['', [Validators.required, ParametroDeTarifaValidators.numberShouldGreaterThanZero]],
+      costeFraccion: ['', [Validators.required, ParametroDeTarifaValidators.numberShouldGreaterThanZero]],
       tiempoMaxSalida: '',
       tipodeTarifaId: ['', Validators.required]
     });
@@ -83,7 +85,7 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
 
   parametroAltaNuevaTarifaSubmit() {
     if (this.parametroAltaNuevaTarifa.valid) {
-      const userValue: ParameterDeTarifas = this.parametroAltaNuevaTarifa.value;
+      const userValue: ParameterDeTarifas = this.parametroAltaNuevaTarifa.getRawValue();
       const parametroDeTarifaId = this.routeSnapShotParams.length ? this.route.snapshot.params['parametroDeTarifaId'] : null;
       this.parametroAltaNuevaEvent.emit({
         formData: {
@@ -102,7 +104,8 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
           tiempoMaxSinCompra: userValue.tiempoMaxSinCompra,
           id: parseInt(parametroDeTarifaId, 0)
         },
-        isParam: this.routeSnapShotParams.length ? true : false
+        isParam: this.routeSnapShotParams.length ? true : false,
+        tipoDeTarifaData: this.tipoTarifaData ? this.tipoTarifaData : null
     });
     }
   }

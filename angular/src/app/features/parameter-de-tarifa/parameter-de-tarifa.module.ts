@@ -18,6 +18,7 @@ import { ParametroAltaNuevaTarifaComponent } from './parametro-alta-nueva-tarifa
 import { AltaNuevaTarifaUpdationComponent } from './alta-nueva-tarifa-updation/alta-nueva-tarifa-updation.component';
 import { AllowNumericOnlyDirective } from '../../shared/gestionParkingDirectives/allow-numeric-only.directive';
 import { CentrosAsignadoaComponent } from './centros-asignadoa/centros-asignadoa.component';
+import { NumericWithTwoDecimalDirective } from '../../shared/gestionParkingDirectives/numeric-with-two-decimal.directive';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { CentrosAsignadoaComponent } from './centros-asignadoa/centros-asignadoa
     ParametroAltaNuevaTarifaComponent,
     AltaNuevaTarifaUpdationComponent,
     AllowNumericOnlyDirective,
-    CentrosAsignadoaComponent
+    CentrosAsignadoaComponent,
+    NumericWithTwoDecimalDirective
   ],
   imports: [
     CommonModule,

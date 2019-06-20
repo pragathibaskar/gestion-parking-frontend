@@ -4,6 +4,9 @@ import { AlertsService } from '../../../core/services/alerts/alerts.service';
 import { BREADCRUMB_PATHS } from '../../../core/constants/breadcrumb-paths.const';
 import { ParameterDeTarifaService, ParameterDeTarifas } from '../service/parameter-de-tarifa.service';
 import { Router } from '@angular/router';
+import { TipoTarifa } from '../../tipos-tarifa/service/tipo-tarifa.service';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-parametro-alta-nueva-tarifa',
@@ -50,10 +53,12 @@ export class ParametroAltaNuevaTarifaComponent implements OnInit {
     });
   }
 
-  formSubmittion(userData: { formData: ParameterDeTarifas, isParam: boolean }) {
+  formSubmittion(userData: { formData: ParameterDeTarifas, isParam: boolean, tipoDeTarifaData: TipoTarifa }) {
     if (!userData.isParam) {
       this.parameterDeTarifaService.saveParametroDeTarifaData(userData.formData).subscribe(data => {
-        this.alertService.success(this.literals.successRecord);
+        const successMessage = `Tarifa ${userData.tipoDeTarifaData.tipodeTarifa} - ${userData.tipoDeTarifaData.description}
+        con fecha ${this.dateFormat(userData.formData.fechaDesdeVigencia)} dada de alta con éxito. El número de centros afectados es 0`;
+        this.alertService.success(successMessage);
         this.router.navigate(['/parametros-tarifa']);
       }, error => {
         this.alertService.danger(this.literals.generic_error_title);
@@ -66,6 +71,12 @@ export class ParametroAltaNuevaTarifaComponent implements OnInit {
         this.alertService.danger(this.literals.generic_error_title);
       });
     }
+  }
+
+  dateFormat(value: number): any {
+    const val = value.toString();
+    const dateFormatString = val.slice(0, 4) + '/' + val.slice(4, 6) + '/' + val.slice(6, 8);
+    return moment(new Date(dateFormatString)).format('DD/MM/YYYY');
   }
 
 }

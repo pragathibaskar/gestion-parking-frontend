@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientXsrfModule } from '@angular/common/http';
 
 import {
   MatAutocompleteModule,
@@ -50,9 +50,19 @@ import {
   CovalentBreadcrumbsModule,
   CovalentTabSelectModule,
 } from '@covalent/core';
+import { HttpRequestInterceptorService } from '../core/security/httpRequestInterceptor.service';
+import { AuthService } from '../core/security/auth.service';
+import { BusinessOperationsService } from '../core/shared/business-operations.service';
+import { LoginService } from '../core/security/login.service';
+import { AuthGuard } from '../core/security/auth-guard.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
+    // BrowserAnimationsModule,
+    HttpClientModule,
+    HttpClientXsrfModule,
+    CdkTableModule,
     RouterModule,
     MatCardModule,
     MatButtonModule,
@@ -110,7 +120,15 @@ import {
     HttpClientModule,
   ],
   providers: [
-    HttpClientModule
+    AuthGuard,
+    LoginService,
+    AuthService,
+    BusinessOperationsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptorService,
+      multi: true,
+    },
   ],
 })
 export class CoreModule {}

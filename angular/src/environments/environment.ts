@@ -9,7 +9,8 @@ export const environment = {
     'es-ES', 'en-GB'
   ],
   i18nPath: '/assets/i18n/',
-  serverUrl: 'http://consume-consum.apps.okd.openshifthub.ml/'
+  serverUrl: 'http://consume-consum.apps.okd.openshifthub.ml/',
+  security: 'csrf'
 };
 
 /*

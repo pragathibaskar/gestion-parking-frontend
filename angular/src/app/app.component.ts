@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { I18nService } from './core/i18n/i18n.service';
 import { MENU_SECTIONS } from './core/constants/menu.const';
+import { AuthService } from './core/security/auth.service';
+import { LoginService } from './core/security/login.service';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +24,8 @@ export class AppComponent implements OnInit {
   constructor(public media: TdMediaService,
     private readonly i18nService: I18nService,
     public router: Router,
+    private auth: AuthService,
+    private loginService: LoginService,
     public translate: TranslateService) {
 
       this.translate.onLangChange.subscribe(
@@ -43,9 +47,29 @@ export class AppComponent implements OnInit {
     this.currentLang = environment.defaultLanguage;
   }
 
+  isLogged(): boolean {
+    return this.auth.isLogged() || false;
+  }
+
   setLanguage(lang: string) {
     this.translate.use(lang);
     this.currentLang = lang;
+  }
+
+  logout(): void {
+    this.loginService.logout().subscribe(
+      () => {
+        this.auth.setLogged(false);
+        this.auth.setToken('');
+        this.router.navigate(['/login']);
+      },
+      (err: any) => {
+        // Logout error. Exiting anyway...
+        this.auth.setLogged(false);
+        this.auth.setToken('');
+        this.router.navigate(['/login']);
+      },
+    );
   }
 
 }

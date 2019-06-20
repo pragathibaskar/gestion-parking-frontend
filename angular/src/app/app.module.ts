@@ -9,6 +9,8 @@ import { TdDialogService } from '@covalent/core';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/core/security/auth.service';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -19,7 +21,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppComponent
   ],
   imports: [
-    // BrowserModule,
+    BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,
@@ -31,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       },
     })
   ],
-  providers: [TdDialogService],
+  providers: [TdDialogService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

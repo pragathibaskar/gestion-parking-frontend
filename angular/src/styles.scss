@@ -56,3 +56,6 @@ mat-form-field {
 .td-data-table-column, .td-data-table-cell {
   border-right: #f1f1f1 solid 1px
 }
+mat-toolbar [mat-icon-button] {
+  margin: 0 12px !important;
+}

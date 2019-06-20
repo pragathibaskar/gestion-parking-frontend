@@ -17,11 +17,7 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   store$: Observable<TipoTarifa[]>;
   whileLoading = false;
-  columns = [
-    { name: 'centro', label: 'Código centro'},
-    { name: 'descripcion', label: 'Description'},
-    { name: 'fechaDesdeVigencia', label: 'Vigencia Desde'}
-  ];
+  columns = [];
   literals: any = {};
   breadcrumb: any[];
   breadcrumbPaths: any;
@@ -55,7 +51,8 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
     this.initialLoad();
   }
 
-  private initialLoad() {
+  initialLoad() {
+    this.dataSource = [];
     const selectedTipoTarifa: TipoTarifa = this.tipoTarifaService.getTipoTarifaSelectedData();
     const tipoTarifaPayload: TipoTarifaEto = {tipodeTarifa: selectedTipoTarifa.tipodeTarifa, description: selectedTipoTarifa.description};
     this.tipoTarifaService.findAllCentrosData(tipoTarifaPayload).subscribe((data: TipoTarifa[]) => {
@@ -65,11 +62,20 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
     });
   }
 
+  setColumn(literals) {
+    this.columns = [
+      { name: 'centro', label: literals.tarifasCentro.codigoCentro},
+      { name: 'descripcion', label: literals.tarifasCentro.descripcion},
+      { name: 'fechaDesdeVigencia', label: literals.tarifasCentro.vigenciaDesde}
+    ];
+  }
+
   private getTranslations() {
     const currentLang = this.translationService.currentLang;
     this.translationService.getTranslation(currentLang).subscribe(translations => {
       this.literals = translations;
       console.log(this.literals);
+      this.setColumn(this.literals);
       this.breadcrumbPaths = BREADCRUMB_PATHS(this.literals);
       this.breadcrumb = [
         this.breadcrumbPaths.HOME,
@@ -80,6 +86,7 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
     });
     this.translationService.onLangChange.subscribe( translations => {
       this.literals = translations.translations;
+      this.setColumn(this.literals);
       this.breadcrumbPaths = BREADCRUMB_PATHS(this.literals);
       this.breadcrumb = [
         this.breadcrumbPaths.HOME,

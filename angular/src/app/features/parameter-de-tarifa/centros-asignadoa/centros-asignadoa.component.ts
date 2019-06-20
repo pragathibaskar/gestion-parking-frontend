@@ -22,12 +22,7 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
   whileLoading = false;
   view = true;
   showView = false;
-  columns = [
-    { name: 'centro', label: 'Código Centro'},
-    { name: 'description', label: 'Description'},
-    { name: 'fechaDesdeVigencia', label: 'Fecha desde'},
-    { name: 'fechaFin', label: 'Fecha fin'}
-  ];
+  columns = [];
   literals: any = {};
   breadcrumb: any[];
   breadcrumbPaths: any;
@@ -60,10 +55,20 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
     console.log('constantData', this.constantData);
   }
 
+  setColumn(literals) {
+    this.columns = [
+      { name: 'centro', label: literals.tarifasCentro.codigoCentro},
+      { name: 'description', label: literals.tarifasCentro.descripcion},
+      { name: 'fechaDesdeVigencia', label: literals.paramTarifas.fechaDesdeLabel},
+      { name: 'fechaFin', label: literals.paramTarifas.fechaFinLabel}
+    ];
+  }
+
   private getTranslations() {
     const currentLang = this.translationService.currentLang;
     this.translationService.getTranslation(currentLang).subscribe(translations => {
       this.literals = translations;
+      this.setColumn(this.literals);
       this.breadcrumbPaths = BREADCRUMB_PATHS(this.literals);
       this.breadcrumb = [
         this.breadcrumbPaths.HOME,
@@ -74,6 +79,7 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
     });
     this.translationService.onLangChange.subscribe( translations => {
       this.literals = translations.translations;
+      this.setColumn(this.literals);
       this.breadcrumbPaths = BREADCRUMB_PATHS(this.literals);
       this.breadcrumb = [
         this.breadcrumbPaths.HOME,

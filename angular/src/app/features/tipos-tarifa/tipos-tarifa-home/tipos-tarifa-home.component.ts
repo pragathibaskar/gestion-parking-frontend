@@ -31,7 +31,7 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
     private alertSerive: AlertsService,
     private abandonProcessService: AbandonProcessService
   ) {
-      this.tipoTarifaService.setTipoTarifaSelectedData(null);
+    this.tipoTarifaService.setTipoTarifaSelectedData(null);
 
   }
 
@@ -63,7 +63,7 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
       ];
       this.setColumns(this.literals);
     });
-    this.translationService.onLangChange.subscribe( translations => {
+    this.translationService.onLangChange.subscribe(translations => {
       this.literals = translations.translations;
       this.breadcrumbPaths = BREADCRUMB_PATHS(this.literals);
       this.breadcrumb = [
@@ -80,16 +80,22 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
     this.router.navigate(['alta', data.id], { relativeTo: this.route });
   }
 
-  delete(tipoTarifData: TipoTarifa) {
-    this.whileLoading = false;
-    this.tipoTarifaService.deleteTipoTarifaData(tipoTarifData).subscribe(data => {
-      this.alertSerive.success(this.literals.successDelete);
-      this.whileLoading = true;
-      this.dataSource = this.dataSource.filter(dataT => dataT.id !== tipoTarifData.id);
-    }, error => {
-      this.whileLoading = true;
-      this.alertSerive.danger(this.literals.generic_error_title);
-     });
+  delete(tipoTarifData: any) {
+    console.log(tipoTarifData);
+    if (tipoTarifData.porDefecto) {
+      this.alertSerive.danger(this.literals.porDefectoDeleteError);
+    } else {
+      this.whileLoading = false;
+      this.tipoTarifaService.deleteTipoTarifaData(tipoTarifData).subscribe(data => {
+        this.alertSerive.success(this.literals.successDelete);
+        this.whileLoading = true;
+        this.dataSource = this.dataSource.filter(dataT => dataT.id !== tipoTarifData.id);
+      }, error => {
+        this.whileLoading = true;
+        this.alertSerive.danger(this.literals.generic_error_title);
+      });
+    }
+
   }
 
   checkCenter(data: TipoTarifa) {
@@ -129,9 +135,9 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
 
   setColumns(literals) {
     this.columns = [
-      { name: 'tipodeTarifa', label: literals.tiposTarifaTitle},
-      { name: 'description', label: literals.tiposTarifa.descripcion},
-      { name: 'porDefecto', label: literals.tiposTarifa.tipoPorDefecto}
+      { name: 'tipodeTarifa', label: literals.tiposTarifaTitle },
+      { name: 'description', label: literals.tiposTarifa.descripcion },
+      { name: 'porDefecto', label: literals.tiposTarifa.tipoPorDefecto }
     ];
   }
 

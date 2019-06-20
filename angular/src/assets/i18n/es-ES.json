@@ -278,5 +278,6 @@
   "pleaseWait": "por favor espera",
   "Gratuita": "Gratuita",
   "rowPerPage": "Filas por página",
-  "numberShouldGreaterThanZero": "Número debe ser mayor que 0"
+  "numberShouldGreaterThanZero": "Número debe ser mayor que 0",
+  "porDefectoDeleteError": "Eliminar no permitido"
 }

@@ -81,5 +81,6 @@
   "noRecord": "No Record Found",
   "pleaseWait": "Please wait",
   "rowPerPage": "Rows per page",
-  "numberShouldGreaterThanZero": "Number should greater than 0"
+  "numberShouldGreaterThanZero": "Number should greater than 0",
+  "porDefectoDeleteError": "Delete not allowed"
 }

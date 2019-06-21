@@ -20,7 +20,7 @@
         </div>
         <!-- Currency Columns -->
         <ng-template #currencyColumn>
-            <div *ngIf="column.name === 'importeParkingMax' 
+            <div *ngIf="column.name === 'importeParkingMax'
                       || column.name === 'importeMinSinCompra'
                       || column.name === 'importeMin1Hora'
                       || column.name === 'importeMin2Hora'
@@ -40,7 +40,7 @@
             <span>{{column.format ? column.format(row[column.name]) : row[column.name] }}</span>
           </div>
         </ng-template>
-        
+
       </td>
       <td td-data-table-cell (click)="dataTableModification($event, row)" align="start" *ngIf="showView">
         <mat-icon class="tdDataTableIcon">more_vert</mat-icon>
@@ -63,7 +63,7 @@
   <div class="dataTableOptions">
       <ul>
           <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="edit()"><span><mat-icon>edit</mat-icon></span><span>{{literals[literalKey].edit}}</span></li>
-          <li *ngIf="literalKey === 'parametros-tarifa' || literalKey === 'paramTarifas'" (click)="navigateToCentros()"><span><mat-icon>visibility</mat-icon></span><span>{{literals[literalKey].showCentrosAsignados}}</span></li>
+          <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="navigateToCentros()"><span><mat-icon>visibility</mat-icon></span><span>{{literals[literalKey].showCentrosAsignados}}</span></li>
           <li *ngIf="literalKey === 'tiposTarifa'" (click)="setPorDefecto()"><span><mat-icon>check_box</mat-icon></span><span>{{literals[literalKey].setPorDefecto}}</span></li>
           <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>{{literals[literalKey].delete}}</span></li>
           <li *ngIf="literalKey === 'centros'" (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>{{literals[literalKey].delete}}</span></li>

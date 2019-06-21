@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   defaultLanguage: 'es-ES',
   supportedLanguages: [
-    'es-ES', 'en-GB'
+    'es-ES'
   ],
   i18nPath: '/assets/i18n/',
   serverUrl: 'http://api-parking-demo.apps.okd.openshifthub.ml/',

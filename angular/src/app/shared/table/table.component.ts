@@ -41,7 +41,6 @@ export class TableComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.filteredData = this.data;
     this.filter();
-    console.log(this.route.url);
     if (this.route.url === '/tipos-tarifa') {
       this.literalKey = 'tiposTarifa';
     }

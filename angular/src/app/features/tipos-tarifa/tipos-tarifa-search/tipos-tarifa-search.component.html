@@ -1,10 +1,10 @@
-<div class="parkingRateManagement" #parkingRateType [style.height.px]="pageHeight">
+<div class="parkingRateManagement"  #parkingRateType [style.height.px]="pageHeight">
   <form [formGroup]="parkingRateManagement" (ngSubmit)="parkingRateManagementSubmit()" novalidate>
     <div class="row">
       <div class="col-lg-3">
           <mat-form-field appearance="outline">
             <mat-label>{{literals.paramTarifas.tipoTarifaLabel}}</mat-label>
-            <input matInput placeholder="{{'EJ: G'}}" autocomplete="off" formControlName="tipodeTarifa">
+            <input matInput maxlength="1" placeholder="{{'EJ: G'}}" autocomplete="off" formControlName="tipodeTarifa">
             <mat-hint align="start" *ngIf="parkingRateManagement.get('tipodeTarifa').invalid">
               {{literals.requiredField}} <span class="asterisk">*</span>
             </mat-hint>

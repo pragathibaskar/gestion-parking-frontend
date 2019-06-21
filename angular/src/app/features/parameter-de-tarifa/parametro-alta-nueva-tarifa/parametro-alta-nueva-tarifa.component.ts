@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AlertsService } from '../../../core/services/alerts/alerts.service';
 import { BREADCRUMB_PATHS } from '../../../core/constants/breadcrumb-paths.const';
 import { ParameterDeTarifaService, ParameterDeTarifas } from '../service/parameter-de-tarifa.service';
 import { Router } from '@angular/router';
 import { TipoTarifa } from '../../tipos-tarifa/service/tipo-tarifa.service';
 import * as moment from 'moment';
+import { TdDialogService } from '@covalent/core';
 
 
 @Component({
@@ -60,8 +62,12 @@ export class ParametroAltaNuevaTarifaComponent implements OnInit {
         con fecha ${this.dateFormat(userData.formData.fechaDesdeVigencia)} dada de alta con éxito. El número de centros afectados es 0`;
         this.alertService.success(successMessage);
         this.router.navigate(['/parametros-tarifa']);
-      }, error => {
-        this.alertService.danger(this.literals.generic_error_title);
+      }, (error: HttpErrorResponse ) => {
+        if (error.status === 409 ) {
+          this.alertService.danger(error.error);
+        } else {
+          this.alertService.danger(this.literals.generic_error_title);
+        }
       });
     } else {
       this.parameterDeTarifaService.editParametroDeTarifaData(userData.formData).subscribe(data => {

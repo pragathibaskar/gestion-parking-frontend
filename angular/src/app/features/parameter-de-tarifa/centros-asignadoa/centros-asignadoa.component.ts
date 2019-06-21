@@ -52,7 +52,7 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.constantData = this.parameterDeTarifaService.getParamatroTarifaSelectedData();
     this.getTranslations();
-    this.initialLoad();
+    this.initialLoad(this.constantData);
     console.log('constantData', this.constantData);
   }
 
@@ -91,16 +91,31 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initialLoad() {
+  private initialLoad(constantData) {
     this.postData = {
-      'tipodeTarifa': this.constantData.tipodeTarifa,
-      'description': this.constantData.description,
-      'fechaDesdeVigencia': this.constantData.fechaDesdeVigencia,
-      'centro': this.constantData.centro,
+      'tipodeTarifa': constantData.tipodeTarifa,
+      'description': constantData.description,
+      'fechaDesdeVigencia': constantData.fechaDesdeVigencia
+      // 'centro': constantData.centro
     };
-    this.subscription = this.parameterDeTarifaService.findAllCentrosAssignedData(this.postData).subscribe((data: any[]) => {
-      this.dataSource = data.reverse();
+    // this.subscription = this.parameterDeTarifaService.findAllCentrosAssignedData(this.postData).subscribe((data: any[]) => {
+    //   this.dataSource = data.reverse();
+    //   this.whileLoading = true;
+    // });
+
+    this.tipoTarifaService.searchTipoCentrosData(this.postData).subscribe(list => {
       this.whileLoading = true;
+
+      if (list.length) {
+        this.dataSource = [];
+        this.dataSource = list;
+      } else {
+        this.dataSource = [];
+        this.alertSerive.warning(this.literals.noRecord);
+      }
+    }, error => {
+      this.whileLoading = true;
+      this.alertSerive.danger(this.literals.generic_error_title);
     });
   }
 
@@ -163,8 +178,10 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
   }
 
   cancel() {
+    this.parkingRateManagement.reset();
+    this.constantData = this.parameterDeTarifaService.getParamatroTarifaSelectedData();
     this.whileLoading = false;
-    this.initialLoad();
+    this.initialLoad(this.constantData);
   }
 
   ngOnDestroy(): void {

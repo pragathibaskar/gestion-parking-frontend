@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, AfterViewInit, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { BREADCRUMB_PATHS } from '../../../core/constants/breadcrumb-paths.const';
@@ -81,6 +81,11 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
         this.parametroAltaNuevaTarifa.get('fechaDesdeVigencia').disable();
       }
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+      this.pageHeight = window.innerHeight - 160;
   }
 
   parametroAltaNuevaTarifaSubmit() {

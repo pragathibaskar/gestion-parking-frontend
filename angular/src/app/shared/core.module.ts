@@ -129,6 +129,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       useClass: HttpRequestInterceptorService,
       multi: true,
     },
-  ],
+  ]
 })
 export class CoreModule {}

@@ -37,7 +37,6 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getTranslations();
-    console.log(this.literals);
 
     this.initialLoad();
     this.abandonProcessService.deactivate();
@@ -81,7 +80,6 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   }
 
   delete(tipoTarifData: any) {
-    console.log(tipoTarifData);
     if (tipoTarifData.porDefecto) {
       this.alertSerive.danger(this.literals.porDefectoDeleteError);
     } else {
@@ -99,14 +97,12 @@ export class TiposTarifaHomeComponent implements OnInit, OnDestroy {
   }
 
   checkCenter(data: TipoTarifa) {
-    console.log(data);
     this.tipoTarifaService.setTipoTarifaSelectedData(data);
     this.router.navigate(['centros-asignados'], { relativeTo: this.route });
   }
 
   setPorDefecto(data: TipoTarifa) {
     this.whileLoading = false;
-    console.log(data);
     this.tipoTarifaService.setPorDefecto(data).subscribe(porDefecto => {
       this.initialLoad();
     });

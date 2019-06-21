@@ -5,6 +5,7 @@ import { ParameterDeTarifaService, ParameterDeTarifas } from '../service/paramet
 import { AlertsService } from '../../../core/services/alerts/alerts.service';
 import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TdDialogService } from '@covalent/core';
 
 interface ParameterDeTarifaSearchData extends ParameterDeTarifas {
   vigenciaDesde: {
@@ -21,6 +22,7 @@ interface ParameterDeTarifaSearchData extends ParameterDeTarifas {
 export class ParameterDeTarifaHomeComponent implements OnInit {
   breadcrumb: any[];
   breadcrumbPaths: any;
+  parametroDeTarifaSelectedData: ParameterDeTarifas;
   literals: any = {
     paramTarifas: ''
   };
@@ -32,7 +34,8 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
     private parameterDeTarifaService: ParameterDeTarifaService,
     private router: Router,
     private route: ActivatedRoute,
-    private alertSerive: AlertsService
+    private alertSerive: AlertsService,
+    private _dialogService: TdDialogService
   ) { }
 
   ngOnInit() {
@@ -124,16 +127,13 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
     this.initialLoad();
   }
 
-  delete(parametroDeTarifafData: ParameterDeTarifas) {
-    this.whileLoading = false;
-    this.parameterDeTarifaService.deleteParametrosTarifaData(parametroDeTarifafData['id']).subscribe(data => {
-      this.alertSerive.success(this.literals.successDelete);
-      this.whileLoading = true;
-      this.dataSource = this.dataSource.filter(dataT => dataT.id !== parametroDeTarifafData['id']);
-    }, error => {
-      this.whileLoading = true;
-      this.alertSerive.danger(this.literals.generic_error_title);
-     });
+  delete(parametroDeTarifaData: ParameterDeTarifas) {
+    this.parametroDeTarifaSelectedData = parametroDeTarifaData;
+    if (parametroDeTarifaData.numberOfCentros >  0 ) {
+      this.openConfirm(parametroDeTarifaData.numberOfCentros);
+    } else {
+      this.deleteParametros();
+    }
   }
 
   edit(data: ParameterDeTarifas) {
@@ -144,6 +144,41 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
   checkCenter(data: ParameterDeTarifas) {
     this.parameterDeTarifaService.setParamatroTarifaSelectedData(data);
     this.router.navigate(['centrosAsignedTarifa'], { relativeTo: this.route });
+  }
+
+  private deleteParametros() {
+      this.whileLoading = false;
+      this.parameterDeTarifaService.deleteParametrosTarifaData(this.parametroDeTarifaSelectedData['id']).subscribe(data => {
+        this.alertSerive.success(this.literals.successDelete);
+        this.whileLoading = true;
+        this.dataSource = this.dataSource.filter(dataT => dataT.id !== this.parametroDeTarifaSelectedData['id']);
+      }, error => {
+        this.whileLoading = true;
+        this.alertSerive.danger(this.literals.generic_error_title);
+      });
+  }
+
+  openConfirm(numero: number): void {
+    this._dialogService.openConfirm({
+      message: this.literals.numberOfAffectedNumeroCentros + numero,
+      disableClose: false,
+      title: this.literals.beforeLeaveModal.titulo,
+      cancelButton: this.literals.cancel,
+      acceptButton: this.literals.confirm,
+      width: '500px',
+    }).afterClosed().subscribe((accept: boolean) => {
+      if (accept) {
+        this.whileLoading = false;
+        this.parameterDeTarifaService.deleteParametrosTarifaData(this.parametroDeTarifaSelectedData['id']).subscribe(data => {
+          this.alertSerive.success(this.literals.successDelete);
+          this.whileLoading = true;
+          this.dataSource = this.dataSource.filter(dataT => dataT.id !== this.parametroDeTarifaSelectedData['id']);
+        }, error => {
+          this.whileLoading = true;
+          this.alertSerive.danger(this.literals.generic_error_title);
+        });
+      }
+    });
   }
 
 }

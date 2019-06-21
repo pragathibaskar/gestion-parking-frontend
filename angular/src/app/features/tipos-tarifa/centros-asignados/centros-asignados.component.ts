@@ -57,7 +57,6 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
     const tipoTarifaPayload: TipoTarifaEto = {tipodeTarifa: selectedTipoTarifa.tipodeTarifa, description: selectedTipoTarifa.description};
     this.tipoTarifaService.findAllCentrosData(tipoTarifaPayload).subscribe((data: TipoTarifa[]) => {
       this.dataSource = data.reverse();
-      console.log(this.dataSource);
       this.whileLoading = true;
     });
   }
@@ -74,7 +73,6 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
     const currentLang = this.translationService.currentLang;
     this.translationService.getTranslation(currentLang).subscribe(translations => {
       this.literals = translations;
-      console.log(this.literals);
       this.setColumn(this.literals);
       this.breadcrumbPaths = BREADCRUMB_PATHS(this.literals);
       this.breadcrumb = [
@@ -110,9 +108,6 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
       searchData['mastroDescripcion'] = this.tipoDeDescriptionControl.value;
     }
 
-    console.log(searchData);
-    // return false;
-
     this.tipoTarifaService.searchTipoCentrosData(searchData).subscribe(list => {
       this.whileLoading = true;
 
@@ -140,7 +135,6 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
   }
 
   delete(tipoTarifData: any) {
-    console.log(tipoTarifData);
     this.whileLoading = false;
     this.tipoTarifaService.deleteCentroTarifaData(tipoTarifData).subscribe(data => {
       this.alertSerive.success(this.literals.successDelete);

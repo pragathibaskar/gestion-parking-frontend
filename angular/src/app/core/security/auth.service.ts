@@ -15,7 +15,6 @@ export class AuthService {
   public setLogged(login: boolean): void {
     localStorage.setItem('logged', (login ? 'true' : 'false'));
     this.logged = login;
-    console.log('this.logged', this.logged);
   }
 
   public getToken(): string {

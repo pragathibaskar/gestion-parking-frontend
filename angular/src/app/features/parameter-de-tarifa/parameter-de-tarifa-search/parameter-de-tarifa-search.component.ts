@@ -95,15 +95,19 @@ export class ParameterDeTarifaSearchComponent implements OnInit {
   }
 
   private addFormControls(controls) {
-    controls.forEach(element => {
-      this.parkingRateParametroManagement.addControl(element, new FormControl(''));
-    });
+    if (controls) {
+      controls.forEach(element => {
+        this.parkingRateParametroManagement.addControl(element, new FormControl(''));
+      });
+    }
   }
 
   private removeFormControl(controls) {
-    controls.forEach(element => {
-      this.parkingRateParametroManagement.removeControl(element);
-    });
+    if (controls) {
+      controls.forEach(element => {
+        this.parkingRateParametroManagement.removeControl(element);
+      });
+    }
   }
 
   discard() {

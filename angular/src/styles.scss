@@ -68,3 +68,7 @@ mat-toolbar [mat-icon-button] {
 .mat-hint .asterisk {
   color: #ff0000;
 }
+mat-card-content mat-card {
+  padding: 0;
+  margin: 0 0 8px 0 !important;
+}

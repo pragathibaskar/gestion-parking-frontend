@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { TipoTarifaService, TipoTarifa, TipoTarifaEto } from '../service/tipo-tarifa.service';
@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AlertsService } from '../../../core/services/alerts/alerts.service';
 import { skip } from 'rxjs/operators';
 import { AbandonProcessService } from 'src/app/core/services/abandon-process/abandon-process.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-tipos-tarifa-search',
@@ -67,7 +68,6 @@ export class TiposTarifaSearchComponent implements OnInit {
       }
     } else if (this.compName === 'centros') {
       this.tipoTarifaData = this.tipoTarifaService.getTipoTarifaSelectedData();
-      console.log(this.tipoTarifaData);
       this.validatorsForTipoDeTarifaControl();
       this.validatorsForTipoDeDescriptionControl();
       if (this.tipoTarifaData) {
@@ -87,6 +87,13 @@ export class TiposTarifaSearchComponent implements OnInit {
     }
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if (this.compName === 'alta') {
+      console.log(event);
+      this.pageHeight = window.innerHeight - 196;
+    }
+  }
 
   private activateAbandonProcessOnDirty() {
     this.parkingRateManagement.valueChanges.pipe(skip(1)).subscribe((values) => {
@@ -135,8 +142,12 @@ export class TiposTarifaSearchComponent implements OnInit {
             this.alertService.success(this.literals.successRecord);
             this.abandonProcessService.deactivate();
             this.router.navigate(['/tipos-tarifa']);
-          }, error => {
-            this.alertService.danger(this.literals.generic_error_title);
+          }, ( error: HttpErrorResponse ) => {
+            if (error.status === 409 ) {
+              this.alertService.danger(error.error);
+            } else {
+              this.alertService.danger(this.literals.generic_error_title);
+            }
           });
         }
       }

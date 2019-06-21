@@ -13,37 +13,34 @@
   </thead>
   <tbody>
     <tr td-data-table-row *ngFor="let row of filteredData">
-      <td td-data-table-cell *ngFor="let column of columns" [numeric]="column.numeric" [ngSwitch]="column.name">
-        <div>
-            <span *ngSwitchCase="'fechaDesdeVigencia'">
-              {{column.format ? column.format(row[column.name]) : row[column.name] | stringToDateFormat}}
-            </span>
-            <span *ngSwitchCase="'fechaFin'">
-              {{column.format ? column.format(row[column.name]) : row[column.name] | stringToDateFormat}}
-            </span>
-            <span *ngSwitchCase="'importeParkingMax'">
-              {{column.format ? column.format(row[column.name]) : row[column.name] | currency:'EUR' }}
-            </span>
-            <span *ngSwitchCase="'importeMinSinCompra'">
-              {{column.format ? column.format(row[column.name]) : row[column.name] | currency:'EUR' }}
-            </span>
-            <span *ngSwitchCase="'importeMin1Hora'">
-              {{column.format ? column.format(row[column.name]) : row[column.name] | currency:'EUR' }}
-            </span>
-            <span *ngSwitchCase="'importeMin2Hora'">
-              {{column.format ? column.format(row[column.name]) : row[column.name] | currency:'EUR' }}
-            </span>
-            <span *ngSwitchCase="'costeFraccion'">
-              {{column.format ? column.format(row[column.name]) : row[column.name] | currency:'EUR' }}
-            </span>
-            <span *ngSwitchCase="'porDefecto'">
-              <button class="porDefecto" mat-button disabled="disabled">{{row[column.name] ? literals.tiposTarifa.porDefectoLabel : ""}}</button>
-            </span>
-            <span *ngSwitchDefault>
-                {{column.format ? column.format(row[column.name]) : row[column.name] }}
-            </span>
-
+      <td td-data-table-cell *ngFor="let column of columns" [numeric]="column.numeric">
+        <!-- Date Columns -->
+        <div *ngIf="column.name === 'fechaDesdeVigencia' || column.name === 'fechaFin' else currencyColumn">
+            <span>{{column.format ? column.format(row[column.name]) : row[column.name] | stringToDateFormat}}</span>
         </div>
+        <!-- Currency Columns -->
+        <ng-template #currencyColumn>
+            <div *ngIf="column.name === 'importeParkingMax' 
+                      || column.name === 'importeMinSinCompra'
+                      || column.name === 'importeMin1Hora'
+                      || column.name === 'importeMin2Hora'
+                      || column.name === 'costeFraccion' else porDefecto">
+                <span>{{column.format ? column.format(row[column.name]) : row[column.name] | currency:'EUR' }}</span>
+            </div>
+        </ng-template>
+        <!-- PorDefecto Columns -->
+        <ng-template #porDefecto>
+          <div *ngIf="column.name === 'porDefecto' else default">
+              <button class="porDefecto" mat-button disabled="disabled">{{row[column.name] ? literals.tiposTarifa.porDefectoLabel : ""}}</button>
+          </div>
+        </ng-template>
+        <!-- Default Columns -->
+        <ng-template #default>
+          <div>
+            <span>{{column.format ? column.format(row[column.name]) : row[column.name] }}</span>
+          </div>
+        </ng-template>
+        
       </td>
       <td td-data-table-cell (click)="dataTableModification($event, row)" align="start" *ngIf="showView">
         <mat-icon class="tdDataTableIcon">more_vert</mat-icon>
@@ -66,7 +63,7 @@
   <div class="dataTableOptions">
       <ul>
           <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="edit()"><span><mat-icon>edit</mat-icon></span><span>{{literals[literalKey].edit}}</span></li>
-          <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="navigateToCentros()"><span><mat-icon>visibility</mat-icon></span><span>{{literals[literalKey].showCentrosAsignados}}</span></li>
+          <li *ngIf="literalKey === 'parametros-tarifa' || literalKey === 'paramTarifas'" (click)="navigateToCentros()"><span><mat-icon>visibility</mat-icon></span><span>{{literals[literalKey].showCentrosAsignados}}</span></li>
           <li *ngIf="literalKey === 'tiposTarifa'" (click)="setPorDefecto()"><span><mat-icon>check_box</mat-icon></span><span>{{literals[literalKey].setPorDefecto}}</span></li>
           <li *ngIf="literalKey === 'tiposTarifa' || literalKey === 'paramTarifas'" (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>{{literals[literalKey].delete}}</span></li>
           <li *ngIf="literalKey === 'centros'" (click)="delete()"><span><mat-icon>delete</mat-icon></span><span>{{literals[literalKey].delete}}</span></li>

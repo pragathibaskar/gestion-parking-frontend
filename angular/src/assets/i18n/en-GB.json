@@ -82,5 +82,7 @@
   "pleaseWait": "Please wait",
   "rowPerPage": "Rows per page",
   "numberShouldGreaterThanZero": "Number should greater than 0",
-  "porDefectoDeleteError": "Delete not allowed"
+  "porDefectoDeleteError": "Delete not allowed",
+  "cannotDelete": "Cannot delete because of relations",
+  "numberOfAffectedNumeroCentros": "Number of centros affected by the ParametroTarifa is"
 }

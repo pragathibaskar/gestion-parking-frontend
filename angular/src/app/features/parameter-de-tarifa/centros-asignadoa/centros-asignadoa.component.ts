@@ -6,7 +6,7 @@ import { Subscription, Observable } from 'rxjs';
 import { AlertsService } from 'src/app/core/services/alerts/alerts.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TipoTarifaEto, TipoTarifa } from '../../tipos-tarifa/service/tipo-tarifa.service';
+import { TipoTarifaEto, TipoTarifa, TipoTarifaService } from '../../tipos-tarifa/service/tipo-tarifa.service';
 import * as moment from 'moment';
 
 @Component({
@@ -37,6 +37,7 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
     private readonly translationService: TranslateService,
     private parameterDeTarifaService: ParameterDeTarifaService,
     private alertSerive: AlertsService,
+    private tipoTarifaService: TipoTarifaService,
     private router: Router,
     private route: ActivatedRoute
     ) {
@@ -112,18 +113,44 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
   parkingRateManagementSubmit() {
     const data = this.parkingRateManagement.value;
     this.constantData = this.parameterDeTarifaService.getParamatroTarifaSelectedData();
-    this.postData = {
-      'tipodeTarifa': this.constantData.tipodeTarifa,
-      'description': this.constantData.description,
-      'centro': data.centro,
-      'mastroDescripcion': data.description,
-      'fechaDesdeVigencia': this.constantData.fechaDesdeVigencia
-    };
-    console.log('postData', this.postData);
+    // this.postData = {
+    //   'tipodeTarifa': this.constantData.tipodeTarifa,
+    //   'description': this.constantData.description,
+    //   'centro': data.centro,
+    //   'mastroDescripcion': data.description,
+    //   'fechaDesdeVigencia': this.constantData.fechaDesdeVigencia
+    // };
+    // console.log('postData', this.postData);
     this.whileLoading = false;
-    this.parameterDeTarifaService.searchTipoTarifaData(this.postData).subscribe(list => {
+    const searchData = {};
+    searchData['tipodeTarifa'] = this.constantData.tipodeTarifa;
+    searchData['description'] = this.constantData.description;
+    searchData['fechaDesdeVigencia'] = this.constantData.fechaDesdeVigencia;
+    if (data.centro !== '') {
+      searchData['centro'] = data.centro;
+    }
+    if (data.description !== '') {
+      searchData['mastroDescripcion'] = data.description;
+    }
+
+    // this.parameterDeTarifaService.searchTipoTarifaData(this.postData).subscribe(list => {
+    //   this.whileLoading = true;
+    //   if (list.length) {
+    //     this.dataSource = list;
+    //   } else {
+    //     this.dataSource = [];
+    //     this.alertSerive.warning(this.literals.noRecord);
+    //   }
+    // }, error => {
+    //   this.whileLoading = true;
+    //   this.alertSerive.danger(this.literals.generic_error_title);
+    // });
+
+    this.tipoTarifaService.searchTipoCentrosData(searchData).subscribe(list => {
       this.whileLoading = true;
+
       if (list.length) {
+        this.dataSource = [];
         this.dataSource = list;
       } else {
         this.dataSource = [];

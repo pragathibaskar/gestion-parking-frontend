@@ -2,7 +2,7 @@
 
   <td-layout-nav-list #navList [opened]="(media.registerQuery('gt-sm') | async) && isLogged()"
     [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
-    [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '250px' : '100%'">
+    [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '250px' : '100%'" fullscreen>
     <!-- Header Title -->
     <div td-sidenav-toolbar-content layout="row" layout-align="start center">
       <button *ngIf="isLogged()" mat-icon-button tdLayoutNavListToggle>
@@ -36,7 +36,7 @@
       </button>
       <mat-menu xPosition="before" #more="matMenu">
         <button mat-menu-item>
-          <span>{{'Logged in as' | translate}} <strong>consum</strong> </span>
+          <span>{{'Logged in as' | translate}} <strong>devon</strong> </span>
         </button>
         <button mat-menu-item (click)="logout()">
           <mat-icon>power_settings_new</mat-icon>

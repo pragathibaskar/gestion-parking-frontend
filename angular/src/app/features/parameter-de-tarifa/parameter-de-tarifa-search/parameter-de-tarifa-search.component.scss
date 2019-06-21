@@ -1,29 +1,30 @@
+@import '../../../../styles/_variables.scss';
+
 .parkingRateParametroManagement {
     padding-left: 0;
     .tipos-tarif-search-action {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 8px;
+        font-family: $bodyFontFamily;
+        @include flexEndRow();
+        margin-top: $gap8;
         button {
-            font-weight: bold;
+            font-weight: $fontBold;
         }
         button:first-child {
-            margin-right: 16px;
+            margin-right: $gap16;
         }
     }
 
     .error-msg {
-        color: red;
-        font-size: 12px;
-        margin-top: -12px;
+        color: $colorRed;
+        font-size: $gap12;
+        margin-top: -$gap12;
     }
 
     .advance-search-filter {
-        display: flex;
-        justify-content: flex-end;
-        font-family: Roboto, "Helvetica Neue", sans-serif;
-        color: #ff0000;
-        margin-bottom: 10px;
+        @include flexEndRow();
+        font-family: $bodyFontFamily;
+        color: $colorRed;
+        margin-bottom: $gap8;
         cursor: pointer;
         mat-icon {
             position: relative;
@@ -32,15 +33,18 @@
     }
 
     .advanced-search-filter-actions {
-        button:nth-child(1) {
-            margin-right: 20px;
+        @include flexEndRow();
+        button {
+            font-family: $bodyFontFamily;
+            font-weight: $fontBold;
         }
-        display: flex;
-        justify-content: flex-end;
+        button:first-child {
+            margin-right: $gap16;
+        }
     }
 
     .prefix {
-        font-size: 14px;
+        font-size: $fontsize14;
         vertical-align: top;
         position: relative;
         top: -2px;

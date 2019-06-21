@@ -56,7 +56,7 @@ export class TiposTarifaSearchComponent implements OnInit {
     if (this.compName === 'alta') {
       this.activateAbandonProcessOnDirty();
       this.tipoTarifaData = this.tipoTarifaService.getTipoTarifaSelectedData();
-      this.pageHeight = window.innerHeight - 200;
+      this.pageHeight = window.innerHeight - 196;
       this.validatorsForTipoDeTarifaControl();
       this.validatorsForTipoDeDescriptionControl();
       if (this.tipoTarifaData) {

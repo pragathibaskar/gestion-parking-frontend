@@ -70,7 +70,7 @@ export class AltaNuevaTarifaUpdationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pageHeight = window.innerHeight - 200;
+    this.pageHeight = window.innerHeight - 160;
     this.getTranslations();
     this.parameterDeTarifaService.findAllTipoTarifaData().subscribe(data => {
       this.tipodeTarifas = data;

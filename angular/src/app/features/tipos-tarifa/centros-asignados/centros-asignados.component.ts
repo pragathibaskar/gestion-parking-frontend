@@ -65,7 +65,7 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
   setColumn(literals) {
     this.columns = [
       { name: 'centro', label: literals.tarifasCentro.codigoCentro},
-      { name: 'descripcion', label: literals.tarifasCentro.descripcion},
+      { name: 'description', label: literals.tarifasCentro.descripcion},
       { name: 'fechaDesdeVigencia', label: literals.tarifasCentro.vigenciaDesde}
     ];
   }
@@ -115,8 +115,10 @@ export class CentrosAsignadosComponent implements OnInit, OnDestroy {
 
     this.tipoTarifaService.searchTipoCentrosData(searchData).subscribe(list => {
       this.whileLoading = true;
-      if (list['content'].length) {
-        this.dataSource = list['content'];
+
+      if (list.length) {
+        this.dataSource = [];
+        this.dataSource = list;
       } else {
         this.dataSource = [];
         this.alertSerive.warning(this.literals.noRecord);

@@ -1,16 +1,17 @@
+@import '../../../../styles/_variables.scss';
+
 .parametroAltaNuevaTarifaManagement {
     .actions {
         position: absolute;
         bottom: 0;
         background: #bbb;
-        padding: 20px;
-        margin-left: 15px;
+        padding: $gap20;
+        margin-left: $gap16;
 
         .parametro-tarif-search-action {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding-left: 16px;
+            @include flexSpaceBetween();
+            margin-bottom: $gap8;
+            padding-left: $gap16;
         }
     }
 
@@ -19,7 +20,7 @@
     }
 
     .prefix {
-        font-size: 14px;
+        font-size: $fontsize14;
         vertical-align: top;
         position: relative;
         top: -2px;

@@ -6,18 +6,18 @@ export class AlertsService {
   constructor(public snackBarService: SnackBarService) {}
 
   success(message: string, duration?: number ) {
-    this.snackBarService.openSnack(message, duration ? duration : 2000, 'green');
+    this.snackBarService.openSnack(message, duration ? duration : 5000, 'green');
   }
 
   danger(message: string, duration?: number ) {
-    this.snackBarService.openSnack(message, duration ? duration : 2000, 'red');
+    this.snackBarService.openSnack(message, duration ? duration : 5000, 'red');
   }
 
   warning(message: string, duration?: number ) {
-    this.snackBarService.openSnack(message, duration ? duration : 2000, 'orange');
+    this.snackBarService.openSnack(message, duration ? duration : 5000, 'orange');
   }
 
   info(message: string, duration?: number ) {
-    this.snackBarService.openSnack(message, duration ? duration : 2000, 'light-blue');
+    this.snackBarService.openSnack(message, duration ? duration : 5000, 'light-blue');
   }
 }

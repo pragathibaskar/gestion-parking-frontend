@@ -22,13 +22,16 @@
 
     .advance-search-filter {
         @include flexEndRow();
-        font-family: $bodyFontFamily;
-        color: $colorRed;
-        margin-bottom: $gap8;
-        cursor: pointer;
-        mat-icon {
-            position: relative;
-            top: -2px;
+        span {
+            cursor: pointer;
+            @include flexEndRow();
+            font-family: $bodyFontFamily;
+            color: $colorRed;
+            margin-bottom: $gap8;        
+            mat-icon {
+                position: relative;
+                top: -2px;
+            }
         }
     }
 

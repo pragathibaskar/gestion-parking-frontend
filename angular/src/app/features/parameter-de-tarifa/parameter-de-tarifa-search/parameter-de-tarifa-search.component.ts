@@ -4,11 +4,23 @@ import { TranslateService } from '@ngx-translate/core';
 import { BREADCRUMB_PATHS } from '../../../core/constants/breadcrumb-paths.const';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-parameter-de-tarifa-search',
   templateUrl: './parameter-de-tarifa-search.component.html',
-  styleUrls: ['./parameter-de-tarifa-search.component.scss']
+  styleUrls: ['./parameter-de-tarifa-search.component.scss'],
+  animations: [
+    trigger('filterState', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateY(-10px)'
+        }),
+        animate(300)
+      ])
+    ])
+  ]
 })
 export class ParameterDeTarifaSearchComponent implements OnInit {
   isAdvanceSearch = false;
@@ -127,5 +139,4 @@ export class ParameterDeTarifaSearchComponent implements OnInit {
       numberOfCentros: ''
     });
   }
-
 }

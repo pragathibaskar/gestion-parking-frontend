@@ -72,3 +72,16 @@ mat-card-content mat-card {
   padding: 0;
   margin: 0 0 8px 0 !important;
 }
+
+.td-data-table-cell-content-wrapper {
+  justify-content: center !important;
+}
+
+table[td-data-table] .td-data-table-column {
+  text-align: center !important;
+}
+
+:first-child > .td-data-table-cell-content-wrapper {
+  justify-content: center !important;
+  padding-left: 0 !important;
+}

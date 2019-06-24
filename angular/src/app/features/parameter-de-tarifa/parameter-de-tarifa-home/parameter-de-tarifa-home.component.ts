@@ -168,15 +168,7 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
       width: '500px',
     }).afterClosed().subscribe((accept: boolean) => {
       if (accept) {
-        this.whileLoading = false;
-        this.parameterDeTarifaService.deleteParametrosTarifaData(this.parametroDeTarifaSelectedData['id']).subscribe(data => {
-          this.alertSerive.success(this.literals.successDelete);
-          this.whileLoading = true;
-          this.dataSource = this.dataSource.filter(dataT => dataT.id !== this.parametroDeTarifaSelectedData['id']);
-        }, error => {
-          this.whileLoading = true;
-          this.alertSerive.danger(this.literals.generic_error_title);
-        });
+        this.deleteParametros();
       }
     });
   }

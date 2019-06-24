@@ -57,11 +57,32 @@ export class ParametroAltaNuevaTarifaComponent implements OnInit {
 
   formSubmittion(userData: { formData: ParameterDeTarifas, isParam: boolean, tipoDeTarifaData: TipoTarifa }) {
     if (!userData.isParam) {
-      this.parameterDeTarifaService.saveParametroDeTarifaData(userData.formData).subscribe(data => {
-        const successMessage = `Tarifa ${userData.tipoDeTarifaData.tipodeTarifa} - ${userData.tipoDeTarifaData.description}
-        con fecha ${this.dateFormat(userData.formData.fechaDesdeVigencia)} dada de alta con éxito. El número de centros afectados es 0`;
-        this.alertService.success(successMessage);
-        this.router.navigate(['/parametros-tarifa']);
+      this.parameterDeTarifaService.saveParametroDeTarifaData(userData.formData).toPromise().then(data => {
+// tslint:disable-next-line: max-line-length
+        this.parameterDeTarifaService.searchParametrosTarifaData({
+          tipodeTarifa: data.tipodeTarifa ? data.tipodeTarifa : null,
+          description: data.description ? data.description : null,
+          startDate: String(data.fechaDesdeVigencia),
+          endDate: String(data.fechaDesdeVigencia),
+          importeParkingMax: null,
+          costeFraccion: data.costeFraccion ? data.costeFraccion : null,
+          importeMin1Hora: null,
+          importeMin2Hora: null,
+          importeMinSinCompra: null,
+          tiempoMaxSalida: null,
+          tiempoMaxSinCompra: null
+        }).toPromise().then(createSearchData => {
+          const successMessage = `Tarifa ${userData.tipoDeTarifaData.tipodeTarifa} - ${userData.tipoDeTarifaData.description}
+          con fecha ${this.dateFormat(userData.formData.fechaDesdeVigencia)} dada de alta con éxito. El número de centros
+          afectados es ${createSearchData[0].numberOfCentros}`;
+          this.alertService.success(successMessage);
+          this.router.navigate(['/parametros-tarifa']);
+        }, error => {
+          this.alertService.success(this.literals.successRecord);
+          this.router.navigate(['/parametros-tarifa']);
+        });
+
+
       }, (error: HttpErrorResponse ) => {
         if (error.status === 409 ) {
           this.alertService.danger(error.error);

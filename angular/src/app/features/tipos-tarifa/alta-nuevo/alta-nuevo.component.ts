@@ -12,7 +12,9 @@ export class AltaNuevoComponent implements OnInit {
 
   breadcrumb: any[];
   breadcrumbPaths: any;
-  literals: any;
+  literals: {
+    altaNuevoTipo: ''
+  };
   constructor(private readonly translationService: TranslateService) { }
 
   ngOnInit() {

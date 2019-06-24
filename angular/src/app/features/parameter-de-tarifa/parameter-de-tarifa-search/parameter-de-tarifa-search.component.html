@@ -1,8 +1,10 @@
 <div class="parkingRateParametroManagement" #parkingRateType>
-  <div class="advance-search-filter" (click)="advanceSearch()">
-    {{literals.filtrosAvanzados}}
-    <mat-icon *ngIf="!isAdvanceSearch">keyboard_arrow_down</mat-icon>
-    <mat-icon *ngIf="isAdvanceSearch">keyboard_arrow_up</mat-icon>
+  <div class="advance-search-filter">
+    <span (click)="advanceSearch()">
+      {{literals.filtrosAvanzados}}
+      <mat-icon *ngIf="!isAdvanceSearch">keyboard_arrow_down</mat-icon>
+      <mat-icon *ngIf="isAdvanceSearch">keyboard_arrow_up</mat-icon>
+    </span>
   </div>
   <form [formGroup]="parkingRateParametroManagement" #parkingRateParametroDirective="ngForm" (ngSubmit)="parkingRateParametroManagementSubmit()" novalidate>
     <div class="row" *ngIf="!isAdvanceSearch">
@@ -39,7 +41,7 @@
     </div>
     <!-- Advanced Search Template -->
     <div class="advanced-search-section" *ngIf="isAdvanceSearch">
-        <div class="row">
+        <div class="row" [@filterState]>
           <div class="col-lg-2">
               <mat-form-field appearance="outline">
                 <mat-label>{{literals.paramTarifas.tipoTarifaLabel}}</mat-label>

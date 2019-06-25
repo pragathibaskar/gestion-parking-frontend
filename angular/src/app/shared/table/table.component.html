@@ -4,11 +4,10 @@
       <th td-data-table-column
           *ngFor="let column of columns"
           [numeric]="column.numeric"
-          [title]="column.label"
-          [width]="column.width">
+          [title]="column.label">
         {{column.label}}
       </th>
-      <th td-data-table-column></th>
+      <th td-data-table-column *ngIf="showView"></th>
     </tr>
   </thead>
   <tbody>

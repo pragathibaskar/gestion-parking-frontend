@@ -49,9 +49,11 @@ mat-form-field {
 .td-data-table-heading {
   padding: 0 10px !important;
 }
-.paramTarifaTable .td-data-table-heading {
-  width: 110px;
+.paramTarifaTable .td-data-table-column {
   overflow-x: hidden;
+}
+.paramTarifaTable table {
+  table-layout: fixed;
 }
 .td-data-table-column, .td-data-table-cell {
   border-right: #f1f1f1 solid 1px

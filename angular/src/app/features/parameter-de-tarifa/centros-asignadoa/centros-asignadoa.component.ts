@@ -98,10 +98,6 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
       'fechaDesdeVigencia': constantData.fechaDesdeVigencia
       // 'centro': constantData.centro
     };
-    // this.subscription = this.parameterDeTarifaService.findAllCentrosAssignedData(this.postData).subscribe((data: any[]) => {
-    //   this.dataSource = data.reverse();
-    //   this.whileLoading = true;
-    // });
 
     this.tipoTarifaService.searchTipoCentrosData(this.postData).subscribe(list => {
       this.whileLoading = true;
@@ -128,14 +124,6 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
   parkingRateManagementSubmit() {
     const data = this.parkingRateManagement.value;
     this.constantData = this.parameterDeTarifaService.getParamatroTarifaSelectedData();
-    // this.postData = {
-    //   'tipodeTarifa': this.constantData.tipodeTarifa,
-    //   'description': this.constantData.description,
-    //   'centro': data.centro,
-    //   'mastroDescripcion': data.description,
-    //   'fechaDesdeVigencia': this.constantData.fechaDesdeVigencia
-    // };
-    // console.log('postData', this.postData);
     this.whileLoading = false;
     const searchData = {};
     searchData['tipodeTarifa'] = this.constantData.tipodeTarifa;
@@ -147,19 +135,6 @@ export class CentrosAsignadoaComponent implements OnInit, OnDestroy {
     if (data.description !== '') {
       searchData['mastroDescripcion'] = data.description;
     }
-
-    // this.parameterDeTarifaService.searchTipoTarifaData(this.postData).subscribe(list => {
-    //   this.whileLoading = true;
-    //   if (list.length) {
-    //     this.dataSource = list;
-    //   } else {
-    //     this.dataSource = [];
-    //     this.alertSerive.warning(this.literals.noRecord);
-    //   }
-    // }, error => {
-    //   this.whileLoading = true;
-    //   this.alertSerive.danger(this.literals.generic_error_title);
-    // });
 
     this.tipoTarifaService.searchTipoCentrosData(searchData).subscribe(list => {
       this.whileLoading = true;

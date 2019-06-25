@@ -84,5 +84,6 @@
   "numberShouldGreaterThanZero": "Number should greater than 0",
   "porDefectoDeleteError": "Delete not allowed",
   "cannotDelete": "Cannot delete because of relations",
-  "numberOfAffectedNumeroCentros": "Number of centros affected by the ParametroTarifa is"
+  "numberOfAffectedNumeroCentros": "Number of centros affected by the ParametroTarifa is",
+  "paramNoDelete": "You cannot delete a Tarifa when it has assigned centers"
 }

@@ -281,5 +281,6 @@
   "numberShouldGreaterThanZero": "Número debe ser mayor que 0",
   "porDefectoDeleteError": "Eliminar no permitido",
   "cannotDelete": "no se puede eliminar debido a las relaciones",
-  "numberOfAffectedNumeroCentros": "Número de centros afectados por el ParametroTarifa es "
+  "numberOfAffectedNumeroCentros": "Número de centros afectados por el ParametroTarifa es ",
+  "paramNoDelete": "No puedes borrar una tarifa vigente con centros asociados"
 }

@@ -52,18 +52,18 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
 
   setColumn(literals) {
     this.columns = [
-      { name: 'tipodeTarifa', label: literals.paramTarifas.tipoTarifaLabel, width: 100},
-      { name: 'description', label: literals.paramTarifas.descripcionLabel, width: 100},
-      { name: 'fechaDesdeVigencia', label: literals.paramTarifas.vigenciaDesdeLabel, width: 100},
-      { name: 'importeParkingMax', label: literals.paramTarifas.importeMaxLabel, width: 100},
-      { name: 'importeMinSinCompra', label: literals.paramTarifas.importeMinLabel, width: 100},
-      { name: 'tiempoMaxSinCompra', label: literals.paramTarifas.tiempoMaxSCLabel, width: 100},
-      { name: 'importeMin1Hora', label: literals.paramTarifas.importeMin1Label, width: 100},
-      { name: 'importeMin2Hora', label: literals.paramTarifas.importeMin2Label, width: 100},
-      { name: 'fraccionFacturacion', label: literals.paramTarifas.fraccionFactLabel, width: 100},
-      { name: 'costeFraccion', label: literals.paramTarifas.costeFracLabel, width: 100},
-      { name: 'tiempoMaxSalida', label: literals.paramTarifas.tiempoMaxLabel, width: 100},
-      { name: 'numberOfCentros', label: literals.paramTarifas.numCentrosColumn, width: 100}
+      { name: 'tipodeTarifa', label: literals.paramTarifas.tipoTarifaLabel},
+      { name: 'description', label: literals.paramTarifas.descripcionLabel},
+      { name: 'fechaDesdeVigencia', label: literals.paramTarifas.vigenciaDesdeLabel},
+      { name: 'importeParkingMax', label: literals.paramTarifas.importeMaxLabel},
+      { name: 'importeMinSinCompra', label: literals.paramTarifas.importeMinLabel},
+      { name: 'tiempoMaxSinCompra', label: literals.paramTarifas.tiempoMaxSCLabel},
+      { name: 'importeMin1Hora', label: literals.paramTarifas.importeMin1Label},
+      { name: 'importeMin2Hora', label: literals.paramTarifas.importeMin2Label},
+      { name: 'fraccionFacturacion', label: literals.paramTarifas.fraccionFactLabel},
+      { name: 'costeFraccion', label: literals.paramTarifas.costeFracLabel},
+      { name: 'tiempoMaxSalida', label: literals.paramTarifas.tiempoMaxLabel},
+      { name: 'numberOfCentros', label: literals.paramTarifas.numCentrosColumn}
     ];
   }
 
@@ -130,7 +130,8 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
   delete(parametroDeTarifaData: ParameterDeTarifas) {
     this.parametroDeTarifaSelectedData = parametroDeTarifaData;
     if (parametroDeTarifaData.numberOfCentros >  0 ) {
-      this.openConfirm(parametroDeTarifaData.numberOfCentros);
+      // this.openConfirm(parametroDeTarifaData.numberOfCentros);
+      this.alertSerive.danger(this.literals.paramNoDelete);
     } else {
       this.deleteParametros();
     }

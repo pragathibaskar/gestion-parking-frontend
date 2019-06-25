@@ -85,5 +85,5 @@
   "porDefectoDeleteError": "Delete not allowed",
   "cannotDelete": "Cannot delete because of relations",
   "numberOfAffectedNumeroCentros": "Number of centros affected by the ParametroTarifa is",
-  "paramNoDelete": "You cannot delete a Tarifa when it has assigned centers"
+  "paramNoDelete": "No puedes borrar una tarifa vigente con centros asociados"
 }

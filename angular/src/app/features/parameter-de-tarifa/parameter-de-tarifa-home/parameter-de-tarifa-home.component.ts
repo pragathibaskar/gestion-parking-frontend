@@ -100,6 +100,7 @@ export class ParameterDeTarifaHomeComponent implements OnInit {
       description: data.description ? data.description : null,
       startDate: beginDate,
       endDate: endDate,
+      fraccionFacturacion: data.fraccionFacturacion ? data.fraccionFacturacion : null,
       importeParkingMax: data.importeParkingMax ? data.importeParkingMax : null,
       costeFraccion: data.costeFraccion ? data.costeFraccion : null,
       importeMin1Hora: data.importeMin1Hora ? data.importeMin1Hora : null,
